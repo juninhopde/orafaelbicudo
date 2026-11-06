@@ -91,9 +91,9 @@ window.DADOS = {
 
   // Sistema de agendamento (consultorio.me)
   agenda: {
-    // Lista de horários do Rafael, aberta direto (a tela antiga "Selecione..." tinha só um item).
-    // Antiga: https://consultorio.me/pre/selectexternal/351958?external=true
-    url: "https://consultorio.me/pro/rafael-bicudo?external=true&list=true"
+    // Lista de horários do Rafael. Abre em UMA aba nova: o formulário do consultorio.me não pode ser embutido
+    // (X-Frame-Options: SAMEORIGIN). Sem "external=true" a lista e o formulário ficam na mesma aba.
+    url: "https://consultorio.me/pro/rafael-bicudo?list=true"
   },
 
   convenio: "O atendimento é exclusivamente particular. Eu forneço nota fiscal ou recibo completo para você pedir reembolso ao seu plano de saúde (o reembolso depende do plano).",
@@ -160,7 +160,7 @@ window.DADOS = {
   // Mensagens do WhatsApp por origem (primeira pessoa, curtas).
   mensagens: {
     // Mensagem final do agendamento. Variáveis: {nome} {queixa} {horario} {local} {valor}
-    agendamento: "Olá, Rafael! Acabei de reservar uma avaliação pelo site.\n\n*Nome:* {nome}\n*Queixa:* {queixa}\n*Horário reservado:* {horario}\n*Local:* {local}\n*Reserva:* Pix de {valor} (comprovante em anexo)",
+    agendamento: "Olá, Rafael! Já fiz o Pix da reserva de {valor} e já agendei o meu horário pelo site. Estou com dor em: {queixa}.\n\n*Nome:* {nome}\n*Horário agendado:* {horario}\n*Local:* {local}\n\nSegue o comprovante do Pix em anexo.",
     barra: "Olá, Rafael! Vim pelo seu site e gostaria de agendar uma avaliação.",
     hero: "Olá, Rafael! Vim pelo seu site e queria contar onde está doendo para saber se a quiropraxia pode me ajudar.",
     regiao: "Olá, Rafael! Vim pelo seu site. Estou com dor/desconforto em: {regiao}. Gostaria de saber se a quiropraxia pode me ajudar.",

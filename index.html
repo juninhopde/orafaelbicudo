@@ -278,17 +278,26 @@
       </div>
     </div>
 
-    <!-- PASSO 3: HORÁRIO NA AGENDA -->
+    <!-- PASSO 3: ESCOLHER O HORÁRIO NA AGENDA DO RAFAEL (abre em uma aba só) -->
     <div class="wiz-painel" id="passo-3" data-passo="3">
       <h3 class="wiz-tit" tabindex="-1">Escolha o dia e o horário</h3>
-      <p>Toque em um horário livre e preencha os seus dados. No campo "Observações", cole o resumo da sua queixa.</p>
-      <button type="button" class="btn btn-ghost" id="copiar-resumo">Copiar resumo da queixa</button>
-      <div class="agenda-frame" id="agenda-frame">
-        <iframe id="agenda-iframe" title="Agenda online para marcar horário com Rafael Bicudo"></iframe>
+      <p>A agenda do Rafael abre em uma nova aba. O formulário dela não pode ficar dentro deste site, por uma trava do próprio sistema de agenda.</p>
+      <ol class="mini-passos">
+        <li>Toque em <strong>Abrir a agenda</strong> e escolha o dia e o horário.</li>
+        <li>Preencha os seus dados. Em "Observações", cole o resumo da queixa (botão abaixo).</li>
+        <li>Toque em <strong>Solicitar Agendamento</strong>.</li>
+        <li>Feche a aba da agenda e volte para cá. O seu progresso fica salvo.</li>
+      </ol>
+      <div class="acoes-agenda">
+        <a class="btn btn-ouro" id="abrir-agenda" href="https://consultorio.me/pro/rafael-bicudo?list=true" target="_blank" rel="noopener" data-origem="abrir-agenda">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg>
+          Abrir a agenda do Rafael
+        </a>
+        <button type="button" class="btn btn-ghost" id="copiar-resumo">Copiar resumo da queixa</button>
       </div>
-      <p class="dica">A agenda não carregou? <a id="agenda-link" href="https://consultorio.me/pro/rafael-bicudo?external=true&amp;list=true" target="_blank" rel="noopener" data-origem="agenda-outra-aba">Abrir em outra aba</a>.</p>
+      <p class="aviso-volta" id="aviso-volta" role="status" hidden>Terminou a reserva na agenda? Toque em <strong>"Já reservei, continuar"</strong> aqui embaixo.</p>
       <div class="wiz-nav">
-        <button type="button" class="btn btn-ouro" id="p3-prox">Já reservei meu horário, continuar</button>
+        <button type="button" class="btn btn-ouro" id="p3-prox">Já reservei, continuar</button>
         <button type="button" class="btn btn-ghost" data-voltar>Voltar</button>
       </div>
     </div>

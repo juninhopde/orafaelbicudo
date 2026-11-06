@@ -33,7 +33,7 @@
   });
   $$("[data-wa]").forEach(function (a) { a.href = waLink(a.getAttribute("data-wa")); });
   $$("[data-ig]").forEach(function (a) { a.href = "https://www.instagram.com/" + D.instagram + "/"; });
-  if (D.agenda && D.agenda.url) { var alk = $("#agenda-link"); if (alk) alk.href = D.agenda.url; }
+  if (D.agenda && D.agenda.url) { var alk = $("#abrir-agenda"); if (alk) alk.href = D.agenda.url; }
   if (!(D.flags && D.flags.mostrarPreco)) $$("[data-preco]").forEach(function (e) { e.hidden = true; e.style.display = "none"; });
 
   /* Provas reais (só com flag e dados) */
@@ -159,7 +159,7 @@
      poder abrir o app do banco e voltar sem perder nada.
      ===================================================================== */
   var CHAVE = "agendamento-v1", TTL = 12 * 3600 * 1000;
-  var E = { passo: 1, regioes: [], nome: "", data: "", hora: "", local: "", det: "", t: 0 };
+  var E = { passo: 1, regioes: [], nome: "", data: "", hora: "", local: "", det: "", abriu: false, t: 0 };
   try {
     var salvo = JSON.parse(localStorage.getItem(CHAVE) || "null");
     if (salvo && Date.now() - salvo.t < TTL) E = Object.assign(E, salvo);
@@ -209,9 +209,15 @@
   /* --- Navegação entre os passos --- */
   var paineis = $$(".wiz-painel"), itens = $$("#wiz-barra li"), status = $("#wiz-status"), topoWiz = $("#wiz-topo");
   var NOMES = ["Onde dói", "Pix da reserva", "Horário na agenda", "Enviar ao Rafael"];
-  var iframe = $("#agenda-iframe"), agendaOn = false, cargas = 0, p3prox = $("#p3-prox");
-  function abrirAgenda() { if (!agendaOn && D.agenda && D.agenda.url) { iframe.src = D.agenda.url; agendaOn = true; } }
-  iframe.addEventListener("load", function () { cargas++; if (cargas >= 3) p3prox.classList.add("destaque"); });
+  var p3prox = $("#p3-prox"), avisoVolta = $("#aviso-volta"), abrirAg = $("#abrir-agenda");
+  /* Depois que a pessoa abriu a agenda, ao voltar para esta aba destacamos o botão de continuar */
+  function mostrarAvisoVolta() {
+    var abriu = !!E.abriu;
+    avisoVolta.hidden = !abriu; p3prox.classList.toggle("destaque", abriu);
+  }
+  abrirAg.addEventListener("click", function () { E.abriu = true; salvar(); });
+  document.addEventListener("visibilitychange", function () { if (!document.hidden && E.passo === 3) mostrarAvisoVolta(); });
+  window.addEventListener("focus", function () { if (E.passo === 3) mostrarAvisoVolta(); });
   function irPara(n, rolar) {
     if (n < 1) n = 1;
     if (n > 1 && !E.regioes.length) n = 1;
@@ -223,7 +229,7 @@
       if (i === n) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
     });
     status.textContent = "Passo " + n + " de 4: " + NOMES[n - 1];
-    if (n === 3) abrirAgenda();
+    if (n === 3) mostrarAvisoVolta();
     if (n === 4) preencherFinal();
     salvar();
     if (rolar) {
@@ -296,7 +302,7 @@
   $("#reiniciar").addEventListener("click", function () {
     E = { passo: 1, regioes: [], nome: "", data: "", hora: "", local: "", det: "", t: 0 };
     try { localStorage.removeItem(CHAVE); } catch (e) {}
-    agendaOn = false; cargas = 0; p3prox.classList.remove("destaque"); iframe.src = "about:blank";
+    p3prox.classList.remove("destaque");
     atualizarRegioes(false); preencherFinal(); irPara(1, true);
   });
 

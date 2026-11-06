@@ -486,3 +486,21 @@ summary:hover, details[open] summary { color: var(--vinho); }
   .barra-fixa .barra-wa { display: none; }
   .barra-fixa .barra-principal { box-shadow: 0 8px 24px rgba(0,0,0,.25); }
 }
+
+/* Passo 3: a barra de ação fica fixa embaixo, mesmo com a agenda ocupando a tela (celular) */
+#passo-3 .wiz-nav {
+  position: sticky; bottom: 0; z-index: 8; margin-top: 12px;
+  flex-direction: row; flex-wrap: nowrap; align-items: stretch; gap: 8px;
+  padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+  background: var(--branco); border-top: 1px solid rgba(31,35,38,.15);
+}
+#passo-3 .wiz-nav .btn-ouro { order: 2; flex: 1; width: auto; }
+#passo-3 .wiz-nav .btn-ghost { order: 1; flex: none; width: auto; padding: 10px 18px; }
+.dica-fixa { margin-top: 10px; }
+
+/* Passo 3 sem iframe: instruções curtas e botão para abrir a agenda */
+.mini-passos { margin: 14px 0 18px; padding-left: 1.3em; max-width: 60ch; display: grid; gap: 6px; }
+.mini-passos li::marker { font-weight: 800; color: var(--vinho); }
+.acoes-agenda { display: grid; gap: 10px; max-width: 460px; }
+.aviso-volta { margin: 16px 0 0; padding: 12px 14px; border-left: 4px solid var(--ouro); background: #FFF6D6; font-weight: 600; }
+@media (min-width: 700px) { .acoes-agenda { grid-template-columns: auto auto; justify-content: start; } }
