@@ -101,7 +101,7 @@
   <div class="top-in">
     <a class="brand" href="#topo" aria-label="Rafael Bicudo, quiropraxia, início">
       <span class="brand-nome">Rafael Bicudo</span>
-      <span class="brand-sub">Quiropraxia</span>
+      <span class="brand-sub">Quiropraxia <span class="brand-reg" data-se="registroCurto" data-bind="registroCurto"></span></span>
     </a>
     <nav class="nav" aria-label="Seções do site">
       <a href="#onde-doi">Onde dói</a>
@@ -160,9 +160,9 @@
         </a>
       </div>
       <ul class="prova reveal r4">
-        <li><span data-bind="registro">[PREENCHER: registro profissional / formação]</span></li>
+        <li data-se="registro"><span data-bind="registro"></span></li>
         <li>Atendo em <span data-bind="cidades">Bragança Paulista e Nazaré Paulista</span></li>
-        <li><span data-bind="horarioResumo">[PREENCHER: dias e horários]</span></li>
+        <li data-se="horarioResumo"><span data-bind="horarioResumo"></span></li>
       </ul>
     </div>
     <figure class="hero-foto reveal r3">
@@ -170,7 +170,6 @@
       <span class="arco-vinho" aria-hidden="true"></span>
       <div class="arco" id="foto-rafael">
         <div class="foto-ph" role="img" aria-label="Espaço reservado para a foto do Rafael Bicudo">
-          <span>[PREENCHER: foto do Rafael]</span>
         </div>
       </div>
     </figure>
@@ -181,7 +180,7 @@
 <section class="onde" id="onde-doi" aria-labelledby="t-onde">
   <div class="wrap">
     <h2 id="t-onde">Onde dói?</h2>
-    <p class="lead">Escolha a região que mais incomoda. Eu explico em poucas linhas o que costuma estar por trás e você fala comigo já com a mensagem pronta.</p>
+    <p class="lead">Escolha as regiões que mais incomodam (pode marcar mais de uma). Eu explico em poucas linhas o que costuma estar por trás e você fala comigo já com a mensagem pronta.</p>
 
     <div class="onde-grid">
       <div class="corpo js-only">
@@ -234,8 +233,8 @@
           <button type="button" class="chip" data-regiao="formigamento">Formigamento em braços ou pernas</button>
         </div>
         <div class="regiao-info" id="regiao-info" aria-live="polite">
-          <p class="regiao-titulo" id="regiao-titulo">Toque em uma região</p>
-          <div class="regiao-corpo-wrap"><p class="regiao-corpo" id="regiao-texto">Se preferir, conte tudo direto no WhatsApp.</p></div>
+          <p class="regiao-titulo" id="regiao-titulo">Toque em uma ou mais regiões</p>
+          <div class="regiao-corpo-wrap"><div class="regiao-corpo" id="regiao-texto"><p>Você pode marcar mais de uma. Para tirar uma região, toque nela de novo. Se preferir, conte tudo direto no WhatsApp.</p></div></div>
         </div>
         <div class="onde-botoes">
           <a class="btn btn-ouro" id="onde-continuar" data-origem="onde-continuar" href="#agendar">Continuar para o Pix e a reserva</a>
@@ -283,9 +282,9 @@
       <li><h3>Depois</h3><p>Combinamos juntos se vale voltar e quando. A decisão é sua.</p></li>
     </ol>
     <div class="medos">
-      <div><h3>Vai doer?</h3><p>O ajuste não precisa ser forte para funcionar. Se algo incomodar, é só avisar que eu paro ou mudo a técnica. <span class="pend-hint">[PREENCHER: confirmar com o Rafael as técnicas usadas]</span></p></div>
+      <div><h3>Vai doer?</h3><p>O ajuste não precisa ser forte para funcionar. Se algo incomodar, é só avisar que eu paro ou mudo a técnica.</p></div>
       <div><h3>Vai estalar?</h3><p>Alguns ajustes produzem um som de estalo, e isso não significa que algo quebrou. Também existem técnicas suaves, sem estalo. Você escolhe com o que se sente confortável.</p></div>
-      <div><h3>Quanto tempo dura?</h3><p><span data-bind="duracao">[PREENCHER: duração da primeira consulta]</span></p></div>
+      <div><h3>Quanto tempo dura?</h3><p><span data-bind="duracao">Até 60 minutos.</span></p></div>
     </div>
       </div>
     </div>
@@ -301,13 +300,12 @@
   <div class="wrap quem-grid">
     <div class="arco arco-quem" id="foto-quem">
       <div class="foto-ph" role="img" aria-label="Espaço reservado para a foto do Rafael atendendo">
-        <span>[PREENCHER: foto do Rafael atendendo]</span>
       </div>
     </div>
     <div>
       <h2 id="t-quem">Quem vai cuidar de você</h2>
-      <p>Eu sou o Rafael Bicudo. <span class="pend-hint">[PREENCHER: história curta e humana, aprovada pelo Rafael (por que escolheu a quiropraxia, como atende)]</span></p>
-      <p><strong>Formação e registro:</strong> <span data-bind="registro">[PREENCHER: registro profissional / formação]</span></p>
+      <p data-bind="quemSou">Prazer, sou Rafael Bicudo, quiropraxista.</p>
+      <p data-se="registro"><strong>Formação e registro:</strong> <span data-bind="registro"></span></p>
       <p><strong>Atendo:</strong> <span data-bind="publico">Crianças, adultos e idosos</span></p>
     </div>
   </div>
@@ -355,6 +353,7 @@
   <div class="wrap">
     <h2 id="t-agendar">Reserve o seu horário</h2>
     <p class="lead">Quatro passos, sem sair do site: indique onde dói, faça o Pix da reserva, envie o comprovante e escolha o dia e a hora.</p>
+    <p class="selo" data-se="registro"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3zm-1.2 14.2-3.5-3.5 1.4-1.4 2.1 2.1 4.6-4.6 1.4 1.4-6 6z"/></svg> Atendimento com Rafael Bicudo, quiropraxista. <span data-bind="registro"></span></p>
     <div class="aviso-reserva" role="note">
       <strong>Como funciona a reserva</strong>
       <p>O Pix de <span data-bind="pix.valor">R$ 70,00</span> garante o seu horário. <span data-bind="reserva.explicacao">Esse valor é descontado do valor da sessão, no dia do atendimento.</span></p>
@@ -417,14 +416,14 @@
   <div class="wrap">
     <h2 id="t-faq">Perguntas que costumam aparecer</h2>
     <div class="faq-lista">
-      <details><summary>Dói?</summary><div><p>O objetivo é que você saia mais leve, não mais dolorido. Se algo incomodar durante a sessão, avise e eu ajusto. <span class="pend-hint">[PREENCHER: confirmar com o Rafael]</span></p></div></details>
+      <details><summary>Dói?</summary><div><p>O ajuste não precisa ser forte para funcionar. Se algo incomodar, é só avisar que eu paro ou mudo a técnica. Depois da sessão, pode haver uma leve sensibilidade muscular.</p></div></details>
       <details><summary>Precisa estalar?</summary><div><p>Não. Alguns ajustes produzem estalo, outros não. Conversamos sobre isso antes de começar.</p></div></details>
-      <details><summary>Quantas sessões vou precisar?</summary><div><p>Depende do seu caso, e só dá para dizer depois da avaliação. Nada é combinado de pacote antes de você conhecer o atendimento. <span class="pend-hint">[PREENCHER: confirmar política de sessões]</span></p></div></details>
-      <details><summary>Atende idosos?</summary><div><p><span data-bind="publico">Crianças, adultos e idosos</span>. <span class="pend-hint">[PREENCHER: confirmar restrições, como o asterisco do Instagram]</span></p></div></details>
-      <details><summary>Atende gestantes?</summary><div><p><span class="pend-hint">[PREENCHER: resposta do Rafael sobre gestantes]</span></p></div></details>
-      <details><summary>Atende crianças?</summary><div><p><span class="pend-hint">[PREENCHER: faixa de idade e se precisa de acompanhante]</span></p></div></details>
-      <details><summary>Aceita convênio ou reembolso?</summary><div><p><span data-bind="convenio">[PREENCHER: aceita convênio ou reembolso?]</span></p></div></details>
-      <details data-preco><summary>Quanto custa?</summary><div><p>Para garantir o horário, a reserva é de <span data-bind="pix.valor">R$ 70,00</span>, paga por Pix, e é descontada do valor da sessão no dia do atendimento. Valor da sessão: <span data-bind="valorSessao">[PREENCHER: valor da sessão]</span>.</p></div></details>
+      <details><summary>Quantas sessões vou precisar?</summary><div><p>A quantidade varia conforme a complexidade do caso e é estimada depois da consulta de avaliação inicial.</p></div></details>
+      <details><summary>Atende idosos?</summary><div><p>Sim. Condições específicas, como osteoporose avançada ou próteses, são analisadas caso a caso na avaliação inicial, e eu uso técnicas de baixa intensidade.</p></div></details>
+      <details><summary>Atende gestantes?</summary><div><p>Sim, com técnicas suaves adaptadas à gestação, depois de uma avaliação.</p></div></details>
+      <details><summary>Atende crianças?</summary><div><p>Sim, com ajustes leves e específicos para a idade, depois de uma avaliação.</p></div></details>
+      <details><summary>Aceita convênio ou reembolso?</summary><div><p><span data-bind="convenio">O atendimento é exclusivamente particular.</span></p></div></details>
+      <details data-preco><summary>Quanto custa?</summary><div><p>Para garantir o horário, a reserva é de <span data-bind="pix.valor">R$ 70,00</span>, paga por Pix, e é descontada do valor da sessão no dia do atendimento. O valor da sessão é <span data-bind="valorSessao">a partir de R$ 210,00</span>.</p></div></details>
       <details><summary>E se eu faltar ou precisar desmarcar?</summary><div><p><span data-bind="reserva.politica">Se você faltar ou desmarcar com 4 horas de antecedência ou menos, a reserva não é devolvida.</span></p></div></details>
       <details><summary>Como funciona o Pix e o agendamento?</summary><div><p>Você faz o Pix da reserva, envia o comprovante ao Rafael pelo WhatsApp e escolhe o horário na agenda do site. O valor da reserva é descontado do valor da sessão.</p></div></details>
     </div>
@@ -458,12 +457,13 @@
 <footer class="rodape">
   <div class="wrap">
     <p class="rod-nome"><strong>Rafael Bicudo</strong> · Quiropraxia</p>
-    <p data-bind="registro">[PREENCHER: registro profissional / formação]</p>
+    <p data-se="registro" data-bind="registro"></p>
     <p data-bind="cidades">Bragança Paulista e Nazaré Paulista</p>
     <p class="rod-links">
       <a data-ig href="https://www.instagram.com/orafaelbicudo/" target="_blank" rel="noopener"><svg class="ico ico-ig" viewBox="0 0 24 24" fill="url(#ig-grad)" aria-hidden="true"><use href="#i-ig"/></svg> @orafaelbicudo</a>
       <a data-wa="rodape" data-origem="rodape" href="https://wa.me/5511917098089" target="_blank" rel="noopener"><svg class="ico ico-wa" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><use href="#i-wa"/></svg> <span data-bind="whatsappExibicao">(11) 91709-8089</span></a>
     </p>
+    <p class="rod-copy">© <span id="ano">2026</span> Rafael Bicudo. Todos os direitos reservados.</p>
     <p class="nota">As informações deste site são educativas e não substituem a avaliação de um profissional. Este site não coleta dados pessoais: nenhum formulário, nenhum login.</p>
   </div>
 </footer>

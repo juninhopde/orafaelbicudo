@@ -1,19 +1,29 @@
 /* ============================================================
    dados.js — ÚNICO lugar para trocar textos, links e flags.
-   Tudo que estiver como [PREENCHER: ...] aparece destacado no site
-   até ser substituído por um dado real e confirmado.
+   Campos vazios ("") não aparecem no site.
    ============================================================ */
 window.DADOS = {
   nome: "Rafael Bicudo",
   nomeConsultorio: "Quiropraxia | Rafael Bicudo",
-  registro: "[PREENCHER: registro profissional / formação]",
+  // Registro profissional: o Rafael pediu para NÃO exibir. Vazio = some do topo, do início, do "Quem sou eu", do selo e do rodapé.
+  // Para ligar de novo, escreva aqui (ex.: "CREFITO-3 12345-F") e em registroCurto.
+  registro: "",
+  registroCurto: "",   // versão curta, usada no topo (ex.: "CREFITO-3 12345-F")
+
+  // Texto "Quem sou eu". Versão ajustada do briefing (sem "especialista", "causa raiz", "viva sem dor", "máxima performance").
+  // ORIGINAL do cliente, caso queira restaurar depois de conferir as regras do conselho:
+  // "Prazer, sou Rafael Bicudo. Sou especialista em Quiropraxia e dedicado a devolver mobilidade, bem-estar e qualidade de vida aos meus
+  //  pacientes. Meu foco é identificar e tratar a causa raiz de dores articulares e desalinhamentos da coluna vertebral, prevenindo
+  //  limitações e promovendo a saúde integral do corpo. Com atendimento humanizado e técnicas específicas para cada fase da vida, desde
+  //  crianças e adultos até idosos, estruturo planos de cuidado individualizados para que você viva sem dor e com máxima performance."
+  quemSou: "Prazer, sou Rafael Bicudo, quiropraxista. Meu trabalho é ajudar você a recuperar mobilidade, bem-estar e qualidade de vida. Meu foco é entender o que está por trás das suas dores articulares e das alterações na coluna, para cuidar delas com calma e orientar você no dia a dia. O atendimento é humanizado, com técnicas pensadas para cada fase da vida, de crianças e adultos a idosos, e cada plano de cuidado é individual.",
 
   // WhatsApp: formato internacional, só dígitos. Fonte: bio do Instagram.
   whatsapp: "5511917098089",
   whatsappExibicao: "(11) 91709-8089",
 
   instagram: "orafaelbicudo",
-  perfilGoogle: "", // [PREENCHER: link do Perfil da Empresa no Google, se existir]
+  perfilGoogle: "", // link do Perfil da Empresa no Google (opcional)
 
   // Fonte: bio do Instagram e post fixado. CONFIRMAR endereços e horários.
   locais: [
@@ -21,16 +31,16 @@ window.DADOS = {
       nome: "Clínica Bem Estar",
       cidade: "Bragança Paulista",
       endereco: "Rua José Domingues, 30 - Centro, Bragança Paulista - SP",
-      horarios: "[PREENCHER: dias e horários neste local]",
-      acesso: "[PREENCHER: estacionamento / ponto de referência]",
+      horarios: "",   // ex.: "Segundas a sextas, 8h às 19h"
+      acesso: "Estacionamento na rua.",
       foto: "assets/fotos/bem-estar.webp"
     },
     {
       nome: "Studio Hoc",
       cidade: "Bragança Paulista",
       endereco: "Av. Marcelo Stefani, 15 - Jaguari Cond. Empresarial, Jd. do Lago, Bragança Paulista - SP",
-      horarios: "[PREENCHER: dias e horários neste local]",
-      acesso: "[PREENCHER: estacionamento / ponto de referência]",
+      horarios: "",   // ex.: "Segundas a sextas, 8h às 19h"
+      acesso: "Estacionamento na rua.",
       foto: "assets/fotos/studio-hoc.webp"
     },
     {
@@ -38,20 +48,20 @@ window.DADOS = {
       cidade: "Nazaré Paulista",
       endereco: "Rua José Faria Júnior, 105 - Vicente Nunes, Nazaré Paulista - SP",
       descricao: "Sala reservada e confortável dentro da academia.",
-      horarios: "16h às 20h [PREENCHER: confirmar os dias da semana]",
-      acesso: "Ao lado da Escola Prof. Fabio Hacl Pinola. [PREENCHER: estacionamento]",
+      horarios: "16h às 20h",   // acrescente os dias da semana, se quiser
+      acesso: "Ao lado da Escola Prof. Fabio Hacl Pinola. Estacionamento na rua.",
       mapsUrl: "https://maps.app.goo.gl/JQqq3LwHA6umjgJV9",
       foto: "assets/fotos/atlas.webp"
     }
   ],
 
-  publico: "Crianças, adultos e idosos", // [PREENCHER: confirmar a restrição do asterisco do Instagram]
+  publico: "Crianças, adultos e idosos",
 
   // Fotos reais (com autorização do Rafael). Coloque os arquivos em assets/fotos/ (WebP, até 1600 px)
   // e escreva o caminho aqui, ex.: "assets/fotos/rafael.webp". Vazio = aparece o espaço reservado.
   fotos: {
     rafael: "assets/fotos/rafael.webp",       // retrato, aparece no início do site (vertical, 4:5)
-    quem: "",         // foto na seção "Quem vai cuidar de você" (vertical, 4:5)
+    quem: "assets/fotos/atendimento.webp",         // foto na seção "Quem vai cuidar de você" (vertical, 4:5)
     atendimento: ""   // foto de atendimento na seção da primeira consulta (horizontal, 3:2)
   },
 
@@ -77,16 +87,16 @@ window.DADOS = {
     explicacao: "Esse valor é descontado do valor da sessão, no dia do atendimento.",
     politica: "Se você faltar ou desmarcar com 4 horas de antecedência ou menos, a reserva não é devolvida."  // texto do Rafael: "faltar ou desmarcar com 4h de antecedência, não tem estorno"
   },
-  valorSessao: "[PREENCHER: valor da sessão]",
+  valorSessao: "a partir de R$ 210,00. O valor final depende da avaliação inicial do histórico clínico",
 
   // Sistema de agendamento (consultorio.me)
   agenda: {
     url: "https://consultorio.me/pre/selectexternal/351958?external=true"
   },
 
-  convenio: "[PREENCHER: aceita convênio ou reembolso?]",
-  horarioResumo: "[PREENCHER: dias e horários de atendimento]",
-  duracao: "[PREENCHER: duração da primeira consulta]",
+  convenio: "O atendimento é exclusivamente particular. Eu forneço nota fiscal ou recibo completo para você pedir reembolso ao seu plano de saúde (o reembolso depende do plano).",
+  horarioResumo: "",   // aparece no início da página; ex.: "Segundas a sextas, 8h às 19h"
+  duracao: "Até 60 minutos.",
 
   // Textos do "Onde dói?". Informativos, sem diagnóstico e sem promessa de resultado.
   regioes: {

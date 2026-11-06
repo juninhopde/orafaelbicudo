@@ -17,36 +17,14 @@
     return "https://wa.me/" + D.whatsapp + "?text=" + encodeURIComponent(msg);
   }
 
-  /* ---------- Placeholders [PREENCHER: ...] ficam destacados ---------- */
-  var RE_PEND = /(\[PREENCHER[^\]]*\])/g;
-  function marcarPendentes(raiz) {
-    var w = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT, {
-      acceptNode: function (n) {
-        var p = n.parentNode && n.parentNode.nodeName;
-        if (p === "SCRIPT" || p === "STYLE" || p === "NOSCRIPT") return NodeFilter.FILTER_REJECT;
-        if (n.parentNode.classList && n.parentNode.classList.contains("pend")) return NodeFilter.FILTER_REJECT;
-        return n.nodeValue.indexOf("[PREENCHER") >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
-      }
-    });
-    var nos = [], n;
-    while ((n = w.nextNode())) nos.push(n);
-    nos.forEach(function (no) {
-      var partes = no.nodeValue.split(RE_PEND), frag = document.createDocumentFragment();
-      partes.forEach(function (t) {
-        if (!t) return;
-        if (/^\[PREENCHER/.test(t)) { var s = document.createElement("span"); s.className = "pend"; s.textContent = t; frag.appendChild(s); }
-        else frag.appendChild(document.createTextNode(t));
-      });
-      no.parentNode.replaceChild(frag, no);
-    });
-  }
-
   /* ---------- Dados do dados.js no HTML ---------- */
   function cidades() {
     var c = [];
     (D.locais || []).forEach(function (l) { if (c.indexOf(l.cidade) < 0) c.push(l.cidade); });
     return c.length > 1 ? c.slice(0, -1).join(", ") + " e " + c[c.length - 1] : (c[0] || "");
   }
+  /* Itens opcionais: somem se o dado estiver vazio no dados.js (ex.: registro profissional) */
+  $$("[data-se]").forEach(function (el) { if (!get(el.getAttribute("data-se"))) el.hidden = true; });
   $$("[data-bind]").forEach(function (el) {
     var k = el.getAttribute("data-bind");
     var v = k === "cidades" ? cidades() : get(k);
@@ -92,8 +70,8 @@
     }
     d.querySelector(".cidade").textContent = l.cidade;
     d.querySelector(".end").textContent = l.endereco;
-    d.querySelector(".hor").textContent = "Horários: " + l.horarios;
-    d.querySelector(".ace").textContent = "Acesso: " + l.acesso;
+    if (l.horarios) d.querySelector(".hor").textContent = "Horários: " + l.horarios; else d.querySelector(".hor").remove();
+    if (l.acesso) d.querySelector(".ace").textContent = "Acesso: " + l.acesso; else d.querySelector(".ace").remove();
     var ac = d.querySelector(".acoes");
     var rota = document.createElement("a");
     rota.className = "btn btn-ghost"; rota.target = "_blank"; rota.rel = "noopener";
@@ -138,7 +116,7 @@
     return corpo + crc16(corpo);
   };
   var bcp = $("#copiar-pix"), bcc = $("#copiar-pixcc");
-  if (D.pix && D.pix.chave && D.pix.chave.indexOf("[PREENCHER") < 0) {
+  if (D.pix && D.pix.chave && true) {
     bcp.hidden = false;
     bcp.addEventListener("click", function () { copiar(bcp, D.pix.chave, "Copiar chave Pix"); });
     if (D.pix.copiaECola && D.pix.valorNumero) {
@@ -192,27 +170,40 @@
     }
   }
 
-  marcarPendentes(document.body);
+  var anoEl = $("#ano"); if (anoEl) anoEl.textContent = new Date().getFullYear();
+
 
   /* ---------- "Onde dói?" ---------- */
   var R = D.regioes || {};
   var chips = $$(".chip"), spots = $$(".spot");
   var tit = $("#regiao-titulo"), txt = $("#regiao-texto"), wrap = $(".regiao-corpo-wrap");
   var ow = $("#onde-wa"), owt = $("#onde-wa-txt");
+  var selecionadas = [], TIT_PADRAO = tit.textContent, TXT_PADRAO = txt.innerHTML, timer;
   ow.href = waLink("hero");
-  var timer;
-  function escolher(chave) {
-    var r = R[chave]; if (!r) return;
-    chips.forEach(function (c) { c.setAttribute("aria-pressed", c.getAttribute("data-regiao") === chave ? "true" : "false"); });
-    spots.forEach(function (s) { s.classList.toggle("on", s.getAttribute("data-regiao") === chave); });
-    ow.href = waLink("regiao", { regiao: r.rotulo });
-    regiaoAtual = r.rotulo; setComprovante();
+  function juntar(arr) { return arr.length < 2 ? (arr[0] || "") : arr.slice(0, -1).join(", ") + " e " + arr[arr.length - 1]; }
+  function atualizar() {
+    var juntas = juntar(selecionadas.map(function (k) { return R[k].rotulo; }));
+    var tem = function (el) { return selecionadas.indexOf(el.getAttribute("data-regiao")) >= 0; };
+    chips.forEach(function (c) { c.setAttribute("aria-pressed", tem(c) ? "true" : "false"); });
+    spots.forEach(function (s) { s.classList.toggle("on", tem(s)); });
+    ow.href = selecionadas.length ? waLink("regiao", { regiao: juntas }) : waLink("hero");
+    regiaoAtual = juntas; setComprovante();
     var at = $("#agenda-regiao-txt"), al = $("#agenda-regiao-link");
-    if (at) { at.textContent = "Região escolhida: " + r.rotulo + "."; }
-    if (al) al.textContent = "Trocar a região";
+    if (at) at.textContent = !selecionadas.length ? "Você ainda não escolheu a região." : (selecionadas.length > 1 ? "Regiões escolhidas: " : "Região escolhida: ") + juntas + ".";
+    if (al) al.textContent = selecionadas.length ? "Trocar as regiões" : "Escolher a região";
     var trocar = function () {
-      tit.textContent = r.titulo; txt.textContent = r.texto;
-      owt.textContent = "Chamar no WhatsApp e falar sobre " + r.rotulo;
+      if (!selecionadas.length) {
+        tit.textContent = TIT_PADRAO; txt.innerHTML = TXT_PADRAO; owt.textContent = "Chamar no WhatsApp e contar onde dói";
+      } else {
+        tit.textContent = selecionadas.length === 1 ? R[selecionadas[0]].titulo : selecionadas.length + " regiões escolhidas";
+        txt.innerHTML = "";
+        selecionadas.forEach(function (k) {
+          var p = document.createElement("p");
+          if (selecionadas.length > 1) { var b = document.createElement("strong"); b.textContent = R[k].titulo + ". "; p.appendChild(b); }
+          p.appendChild(document.createTextNode(R[k].texto)); txt.appendChild(p);
+        });
+        owt.textContent = selecionadas.length === 1 ? "Chamar no WhatsApp e falar sobre " + juntas : "Chamar no WhatsApp e falar sobre as regiões escolhidas";
+      }
       wrap.classList.remove("fechado");
     };
     clearTimeout(timer);
@@ -220,8 +211,14 @@
     wrap.classList.add("fechado");
     timer = setTimeout(trocar, 200);
   }
-  chips.forEach(function (c) { c.addEventListener("click", function () { escolher(c.getAttribute("data-regiao")); }); });
-  spots.forEach(function (s) { s.addEventListener("click", function () { escolher(s.getAttribute("data-regiao")); }); });
+  function alternar(chave) {
+    if (!R[chave]) return;
+    var i = selecionadas.indexOf(chave);
+    if (i >= 0) selecionadas.splice(i, 1); else selecionadas.push(chave);
+    atualizar();
+  }
+  chips.forEach(function (c) { c.addEventListener("click", function () { alternar(c.getAttribute("data-regiao")); }); });
+  spots.forEach(function (s) { s.addEventListener("click", function () { alternar(s.getAttribute("data-regiao")); }); });
 
   /* ---------- Coluna vertebral: alinha conforme a rolagem ---------- */
   var spine = $("#spine"), fin = $("#final"), fim = 1;

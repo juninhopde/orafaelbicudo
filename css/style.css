@@ -404,3 +404,14 @@ summary:hover, details[open] summary { color: var(--vinho); }
 .aviso-reserva strong { display: block; color: var(--ouro); font-family: var(--f-tit); font-size: 1.2rem; margin-bottom: 6px; }
 .aviso-reserva p { margin: 0 0 .5em; }
 .aviso-reserva p:last-child { margin: 0; font-weight: 600; }
+
+/* Onde dói: várias regiões */
+.regiao-corpo p { max-width: none; margin: 0 0 .8em; }
+.regiao-corpo p:last-child { margin: 0; }
+.regiao-corpo strong { color: var(--vinho); }
+
+/* Registro profissional: topo, selo e rodapé */
+.brand-reg { font-weight: 600; color: var(--vinho); }
+.selo { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 20px 0 0; padding: 12px 16px; max-width: 760px; border-left: 4px solid var(--ouro); background: rgba(244,241,234,.08); font-weight: 600; }
+.selo .ico { fill: var(--ouro); width: 1.5em; height: 1.5em; }
+.rod-copy { margin-top: 1em; }
