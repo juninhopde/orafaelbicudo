@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# [PREENCHER: ao publicar, descomente a linha abaixo e troque pelo endereço real do site]
+# Sitemap: https://SEU-ENDERECO/sitemap.xml
