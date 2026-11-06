@@ -104,10 +104,9 @@
       <span class="brand-sub">Quiropraxia <span class="brand-reg" data-se="registroCurto" data-bind="registroCurto"></span></span>
     </a>
     <nav class="nav" aria-label="Seções do site">
-      <a href="#onde-doi">Onde dói</a>
+      <a href="#agendar">Agendar</a>
       <a href="#consulta">Consulta</a>
       <a href="#locais">Locais</a>
-      <a href="#agendar">Agendar</a>
       <a href="#faq">Dúvidas</a>
     </nav>
     <div class="top-links">
@@ -126,17 +125,14 @@
   <button type="button" class="menu-fechar" id="menu-fechar" aria-label="Fechar menu">Fechar</button>
   <nav class="menu-links" aria-label="Seções do site">
     <a href="#topo">Início</a>
-    <a href="#onde-doi">Onde dói</a>
+    <a href="#agendar">Agendar avaliação</a>
     <a href="#consulta">Primeira consulta</a>
     <a href="#locais">Onde eu atendo</a>
-    <a href="#agendar">Agendar</a>
     <a href="#faq">Dúvidas</a>
   </nav>
   <div class="menu-acoes">
-    <a class="btn btn-wa" data-wa="rodape" data-origem="menu" href="https://wa.me/5511917098089" target="_blank" rel="noopener">
-      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-      Chamar no WhatsApp
-    </a>
+    <a class="btn btn-ouro" data-origem="menu-agendar" href="#agendar">Agendar avaliação</a>
+    <a class="menu-ig" data-wa="rodape" data-origem="menu" href="https://wa.me/5511917098089" target="_blank" rel="noopener">Dúvidas? Falar no WhatsApp</a>
     <a class="menu-ig" data-ig href="https://www.instagram.com/orafaelbicudo/" target="_blank" rel="noopener">@orafaelbicudo no Instagram</a>
   </div>
 </div>
@@ -150,14 +146,11 @@
       <h1 class="reveal r1"><span class="barra">Dor nas costas</span> <span class="barra">que não passa?</span></h1>
       <p class="lead reveal r2">Sou o Rafael, quiropraxista em Bragança Paulista e Nazaré Paulista. Indique onde dói e reserve o seu horário em poucos passos.</p>
       <div class="cta-row reveal r3">
-        <a class="btn btn-ouro" data-origem="hero-onde-doi" href="#onde-doi">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pin"/></svg>
-          Indicar onde dói
+        <a class="btn btn-ouro" data-origem="hero-agendar" href="#agendar">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg>
+          Agendar minha avaliação
         </a>
-        <a class="btn btn-wa mag" data-wa="hero" data-origem="hero" href="https://wa.me/5511917098089" target="_blank" rel="noopener">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-          Chamar no WhatsApp
-        </a>
+        <a class="btn btn-ghost" data-origem="hero-consulta" href="#consulta">Como é a consulta</a>
       </div>
       <ul class="prova reveal r4">
         <li data-se="registro"><span data-bind="registro"></span></li>
@@ -176,14 +169,29 @@
   </div>
 </section>
 
-<!-- 3. ONDE DÓI -->
-<section class="onde" id="onde-doi" aria-labelledby="t-onde">
+<!-- AGENDAMENTO EM 4 PASSOS: onde dói, Pix, horário, mensagem ao Rafael -->
+<section class="wiz" id="agendar" aria-labelledby="t-agendar">
+  <span id="onde-doi" class="ancora" aria-hidden="true"></span>
   <div class="wrap">
-    <h2 id="t-onde">Onde dói?</h2>
-    <p class="lead">Escolha as regiões que mais incomodam (pode marcar mais de uma). Eu explico em poucas linhas o que costuma estar por trás e você fala comigo já com a mensagem pronta.</p>
+    <h2 id="t-agendar">Agende sua avaliação</h2>
+    <p class="lead">Quatro passos rápidos, sem sair do site. No final, a sua mensagem já vai pronta para o Rafael no WhatsApp.</p>
 
-    <div class="onde-grid">
-      <div class="corpo js-only">
+    <div class="wiz-topo" id="wiz-topo">
+      <ol class="wiz-barra" id="wiz-barra" aria-label="Etapas do agendamento">
+        <li data-n="1"><span class="n">1</span><span class="t">Onde dói</span></li>
+        <li data-n="2"><span class="n">2</span><span class="t">Pix da reserva</span></li>
+        <li data-n="3"><span class="n">3</span><span class="t">Horário</span></li>
+        <li data-n="4"><span class="n">4</span><span class="t">Enviar</span></li>
+      </ol>
+      <p class="wiz-status" id="wiz-status" aria-live="polite">Passo 1 de 4: onde dói</p>
+    </div>
+
+    <!-- PASSO 1: ONDE DÓI -->
+    <div class="wiz-painel ativo" id="passo-1" data-passo="1">
+      <h3 class="wiz-tit" tabindex="-1">Onde dói?</h3>
+      <p>Toque nas regiões que mais incomodam. Pode marcar mais de uma.</p>
+      <div class="onde-grid">
+        <div class="corpo js-only">
         <svg viewBox="0 0 200 420" class="corpo-svg" aria-hidden="true" focusable="false">
           <g class="sil-contorno">
             <ellipse cx="100" cy="45" rx="24" ry="28"/>
@@ -221,29 +229,109 @@
           </g>
         </svg>
       </div>
+        <div class="onde-painel">
+          <div class="chips js-only" role="group" aria-label="Região do corpo">
+            <button type="button" class="chip" data-regiao="cabeca">Cabeça / enxaqueca</button>
+            <button type="button" class="chip" data-regiao="pescoco">Pescoço</button>
+            <button type="button" class="chip" data-regiao="ombro">Ombro</button>
+            <button type="button" class="chip" data-regiao="lombar">Lombar</button>
+            <button type="button" class="chip" data-regiao="quadril">Quadril</button>
+            <button type="button" class="chip" data-regiao="joelho">Joelho</button>
+            <button type="button" class="chip" data-regiao="formigamento">Formigamento em braços ou pernas</button>
+            <button type="button" class="chip" data-regiao="outra">Outra região</button>
+          </div>
+          <div class="regiao-info" id="regiao-info" aria-live="polite">
+            <p class="regiao-titulo" id="regiao-titulo">Toque em uma ou mais regiões</p>
+            <div class="regiao-corpo-wrap"><div class="regiao-corpo" id="regiao-texto"><p>Para tirar uma região, toque nela de novo.</p></div></div>
+          </div>
+          <p class="nota">Informação geral. Não é diagnóstico e não substitui avaliação profissional.</p>
+        </div>
+      </div>
+      <div class="wiz-nav">
+        <button type="button" class="btn btn-ouro" id="p1-prox" disabled>Continuar para o Pix</button>
+        <span class="dica" id="p1-dica">Marque pelo menos uma região para continuar.</span>
+      </div>
+    </div>
 
-      <div class="onde-painel">
-        <div class="chips js-only" role="group" aria-label="Região do corpo">
-          <button type="button" class="chip" data-regiao="cabeca">Cabeça / enxaqueca</button>
-          <button type="button" class="chip" data-regiao="pescoco">Pescoço</button>
-          <button type="button" class="chip" data-regiao="ombro">Ombro</button>
-          <button type="button" class="chip" data-regiao="lombar">Lombar</button>
-          <button type="button" class="chip" data-regiao="quadril">Quadril</button>
-          <button type="button" class="chip" data-regiao="joelho">Joelho</button>
-          <button type="button" class="chip" data-regiao="formigamento">Formigamento em braços ou pernas</button>
+    <!-- PASSO 2: PIX DA RESERVA -->
+    <div class="wiz-painel" id="passo-2" data-passo="2">
+      <h3 class="wiz-tit" tabindex="-1">Faça o Pix da reserva de <span data-bind="pix.valor">R$ 70,00</span></h3>
+      <div class="aviso-reserva" role="note">
+      <strong>Como funciona a reserva</strong>
+      <p>O Pix de <span data-bind="pix.valor">R$ 70,00</span> garante o seu horário. <span data-bind="reserva.explicacao">Esse valor é descontado do valor da sessão, no dia do atendimento.</span></p>
+      <p><span data-bind="reserva.politica">Se você faltar ou desmarcar com 4 horas de antecedência ou menos, a reserva não é devolvida.</span></p>
+    </div>
+      <div class="pix-caixa">
+        <p class="rot">Chave Pix (<span data-bind="pix.tipoChave">Celular</span>)</p>
+        <p class="pixchave" data-bind="pix.chave">11917098089</p>
+        <p class="rot">Favorecido</p>
+        <p class="favorecido" data-bind="pix.favorecido">RAFAEL BICUDO DEBONI</p>
+        <div class="pix-botoes">
+          <button type="button" class="btn btn-ghost" id="copiar-pix" hidden>Copiar chave Pix</button>
+          <button type="button" class="btn btn-ghost" id="copiar-pixcc" hidden>Copiar Pix copia e cola (já com o valor)</button>
         </div>
-        <div class="regiao-info" id="regiao-info" aria-live="polite">
-          <p class="regiao-titulo" id="regiao-titulo">Toque em uma ou mais regiões</p>
-          <div class="regiao-corpo-wrap"><div class="regiao-corpo" id="regiao-texto"><p>Você pode marcar mais de uma. Para tirar uma região, toque nela de novo. Se preferir, conte tudo direto no WhatsApp.</p></div></div>
+      </div>
+      <p>Guarde o comprovante: você vai anexá-lo na mensagem do último passo.</p>
+      <div class="wiz-nav">
+        <button type="button" class="btn btn-ouro" id="p2-prox">Já fiz o Pix, escolher o horário</button>
+        <button type="button" class="btn btn-ghost" data-voltar>Voltar</button>
+      </div>
+    </div>
+
+    <!-- PASSO 3: HORÁRIO NA AGENDA -->
+    <div class="wiz-painel" id="passo-3" data-passo="3">
+      <h3 class="wiz-tit" tabindex="-1">Escolha o dia e o horário</h3>
+      <p>Toque em um horário livre e preencha os seus dados. No campo "Observações", cole o resumo da sua queixa.</p>
+      <button type="button" class="btn btn-ghost" id="copiar-resumo">Copiar resumo da queixa</button>
+      <div class="agenda-frame" id="agenda-frame">
+        <iframe id="agenda-iframe" title="Agenda online para marcar horário com Rafael Bicudo"></iframe>
+      </div>
+      <p class="dica">A agenda não carregou? <a id="agenda-link" href="https://consultorio.me/pro/rafael-bicudo?external=true&amp;list=true" target="_blank" rel="noopener" data-origem="agenda-outra-aba">Abrir em outra aba</a>.</p>
+      <div class="wiz-nav">
+        <button type="button" class="btn btn-ouro" id="p3-prox">Já reservei meu horário, continuar</button>
+        <button type="button" class="btn btn-ghost" data-voltar>Voltar</button>
+      </div>
+    </div>
+
+    <!-- PASSO 4: CONFIRMAR E ENVIAR AO RAFAEL -->
+    <div class="wiz-painel" id="passo-4" data-passo="4">
+      <h3 class="wiz-tit" tabindex="-1">Confirme e envie ao Rafael</h3>
+      <p>Diga qual horário você acabou de reservar. O WhatsApp abre com a mensagem pronta.</p>
+      <form id="form-final" class="form-final" novalidate>
+        <div class="campo">
+          <label for="f-nome">Seu nome</label>
+          <input id="f-nome" name="nome" type="text" autocomplete="name" required>
         </div>
-        <div class="onde-botoes">
-          <a class="btn btn-ouro" id="onde-continuar" data-origem="onde-continuar" href="#agendar">Continuar para o Pix e a reserva</a>
-          <a class="btn btn-wa mag" id="onde-wa" data-wa="regiao" data-origem="onde-doi" href="https://wa.me/5511917098089" target="_blank" rel="noopener">
+        <div class="campo-duplo">
+          <div class="campo">
+            <label for="f-data">Dia da consulta</label>
+            <input id="f-data" name="data" type="date" required>
+          </div>
+          <div class="campo">
+            <label for="f-hora">Horário</label>
+            <input id="f-hora" name="hora" type="time" step="300" required>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="f-local">Local de atendimento</label>
+          <select id="f-local" name="local" required><option value="">Escolha o local</option></select>
+        </div>
+        <div class="campo">
+          <label for="f-det">Quer contar mais sobre a dor? (opcional)</label>
+          <textarea id="f-det" name="detalhes" rows="3" maxlength="400"></textarea>
+        </div>
+        <div class="resumo-final" id="resumo-final" aria-live="polite"></div>
+        <p class="erro" id="f-erro" role="alert" hidden></p>
+        <a class="btn btn-wa" id="final-enviar" data-origem="agendamento-enviar" href="https://wa.me/5511917098089" target="_blank" rel="noopener">
           <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-          <span id="onde-wa-txt">Chamar no WhatsApp e contar onde dói</span>
+          Enviar ao Rafael no WhatsApp
         </a>
-        </div>
-        <p class="nota">Para garantir o horário, a reserva é de <span data-bind="pix.valor">R$ 70,00</span>, descontada do valor da sessão. Informação geral. Não é diagnóstico e não substitui avaliação profissional.</p>
+        <p class="dica" id="f-dica">No WhatsApp, anexe o comprovante do Pix e toque em enviar.</p>
+        <p class="ok" id="f-ok" role="status" hidden>Mensagem pronta no WhatsApp. Falta só anexar o comprovante e tocar em enviar. O Rafael confirma o seu horário por lá.</p>
+      </form>
+      <div class="wiz-nav">
+        <button type="button" class="btn btn-ghost" data-voltar>Voltar</button>
+        <button type="button" class="link-btn" id="reiniciar">Começar um novo agendamento</button>
       </div>
     </div>
   </div>
@@ -288,9 +376,9 @@
     </div>
       </div>
     </div>
-    <a class="btn btn-wa mag" data-wa="consulta" data-origem="consulta" href="https://wa.me/5511917098089" target="_blank" rel="noopener">
-      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-      Chamar no WhatsApp e tirar dúvidas da consulta
+    <a class="btn btn-ouro" data-origem="consulta-agendar" href="#agendar">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg>
+      Agendar minha avaliação
     </a>
   </div>
 </section>
@@ -348,59 +436,6 @@
   </div>
 </section>
 
-<!-- AGENDAMENTO -->
-<section class="agendar" id="agendar" aria-labelledby="t-agendar">
-  <div class="wrap">
-    <h2 id="t-agendar">Reserve o seu horário</h2>
-    <p class="lead">Quatro passos, sem sair do site: indique onde dói, faça o Pix da reserva, envie o comprovante e escolha o dia e a hora.</p>
-    <p class="selo" data-se="registro"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3zm-1.2 14.2-3.5-3.5 1.4-1.4 2.1 2.1 4.6-4.6 1.4 1.4-6 6z"/></svg> Atendimento com Rafael Bicudo, quiropraxista. <span data-bind="registro"></span></p>
-    <div class="aviso-reserva" role="note">
-      <strong>Como funciona a reserva</strong>
-      <p>O Pix de <span data-bind="pix.valor">R$ 70,00</span> garante o seu horário. <span data-bind="reserva.explicacao">Esse valor é descontado do valor da sessão, no dia do atendimento.</span></p>
-      <p><span data-bind="reserva.politica">Se você faltar ou desmarcar com 4 horas de antecedência ou menos, a reserva não é devolvida.</span></p>
-    </div>
-    <ol class="pix-passos">
-      <li>
-        <h3>Onde dói</h3>
-        <p id="agenda-regiao-txt">Você ainda não escolheu a região.</p>
-        <a class="btn btn-ghost-dark" id="agenda-regiao-link" data-origem="agenda-escolher-regiao" href="#onde-doi">Escolher a região</a>
-      </li>
-      <li>
-        <h3>Faça o Pix da reserva de <span data-bind="pix.valor">R$ 70,00</span></h3>
-        <p>Chave Pix (<span data-bind="pix.tipoChave">Celular</span>): <strong class="pixchave" data-bind="pix.chave">11917098089</strong><br>
-        Favorecido: <span data-bind="pix.favorecido">RAFAEL BICUDO DEBONI</span></p>
-        <div class="pix-botoes">
-          <button type="button" class="btn btn-ghost-dark" id="copiar-pix" hidden>Copiar chave Pix</button>
-          <button type="button" class="btn btn-ghost-dark" id="copiar-pixcc" hidden>Copiar Pix copia e cola</button>
-        </div>
-      </li>
-      <li>
-        <h3>Envie o comprovante ao Rafael</h3>
-        <p>Mande o comprovante pelo WhatsApp. A mensagem já vai com a sua região.</p>
-        <a class="btn btn-wa mag" data-wa="comprovante" data-origem="comprovante" href="https://wa.me/5511917098089" target="_blank" rel="noopener">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-          Enviar comprovante no WhatsApp
-        </a>
-      </li>
-      <li>
-        <h3>Escolha o dia e o horário</h3>
-        <p>A agenda abre logo depois que você enviar o comprovante. Se ela não carregar, abra em tela cheia.</p>
-      </li>
-    </ol>
-    <div class="agenda-frame" id="agenda-frame">
-      <iframe id="agenda-iframe" title="Agenda online para marcar horário com Rafael Bicudo" loading="lazy" src="https://consultorio.me/pre/selectexternal/351958?external=true"></iframe>
-      <div class="agenda-trava" id="agenda-trava" hidden>
-        <p>A agenda abre quando você envia o comprovante do Pix.</p>
-        <button type="button" class="btn btn-ouro" id="agenda-liberar" data-origem="agenda-liberar">Já enviei o comprovante, abrir a agenda</button>
-      </div>
-    </div>
-    <a class="btn btn-ouro" id="agenda-link" data-origem="agenda-tela-cheia" href="https://consultorio.me/pre/selectexternal/351958?external=true" target="_blank" rel="noopener">
-      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg>
-      Abrir a agenda em tela cheia
-    </a>
-  </div>
-</section>
-
 <!-- 9. ONDE ATENDE -->
 <section class="locais" id="locais" aria-labelledby="t-loc">
   <div class="wrap">
@@ -427,9 +462,9 @@
       <details><summary>E se eu faltar ou precisar desmarcar?</summary><div><p><span data-bind="reserva.politica">Se você faltar ou desmarcar com 4 horas de antecedência ou menos, a reserva não é devolvida.</span></p></div></details>
       <details><summary>Como funciona o Pix e o agendamento?</summary><div><p>Você faz o Pix da reserva, envia o comprovante ao Rafael pelo WhatsApp e escolhe o horário na agenda do site. O valor da reserva é descontado do valor da sessão.</p></div></details>
     </div>
-    <a class="btn btn-wa mag" data-wa="faq" data-origem="faq" href="https://wa.me/5511917098089" target="_blank" rel="noopener">
-      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-      Chamar no WhatsApp e perguntar
+    <a class="btn btn-ouro" data-origem="faq-agendar" href="#agendar">
+      <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg>
+      Agendar minha avaliação
     </a>
   </div>
 </section>
@@ -438,15 +473,11 @@
 <section class="final" id="final" aria-labelledby="t-final">
   <div class="wrap">
     <h2 id="t-final">Sua coluna merece ser ouvida.</h2>
-    <p class="lead">Conte como está e vamos ver juntos o próximo passo.</p>
+    <p class="lead">Escolha o seu horário e conte onde dói, em poucos passos.</p>
     <div class="cta-row">
-      <a class="btn btn-wa mag" data-wa="final" data-origem="cta-final" href="https://wa.me/5511917098089" target="_blank" rel="noopener">
-        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-        Chamar no WhatsApp e começar
-      </a>
-      <a class="btn btn-ghost-dark" data-origem="final-agendar" href="#agendar">
+      <a class="btn btn-ouro" data-origem="final-agendar" href="#agendar">
         <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg>
-        Agendar horário
+        Agendar minha avaliação
       </a>
     </div>
   </div>
@@ -464,17 +495,19 @@
       <a data-wa="rodape" data-origem="rodape" href="https://wa.me/5511917098089" target="_blank" rel="noopener"><svg class="ico ico-wa" viewBox="0 0 24 24" fill="#25D366" aria-hidden="true"><use href="#i-wa"/></svg> <span data-bind="whatsappExibicao">(11) 91709-8089</span></a>
     </p>
     <p class="rod-copy">© <span id="ano">2026</span> Rafael Bicudo. Todos os direitos reservados.</p>
-    <p class="nota">As informações deste site são educativas e não substituem a avaliação de um profissional. Este site não coleta dados pessoais: nenhum formulário, nenhum login.</p>
+    <p class="nota">As informações deste site são educativas e não substituem a avaliação de um profissional. O que você digita no agendamento fica só no seu aparelho e vai direto para o WhatsApp do Rafael. O horário é reservado no sistema de agenda consultorio.me.</p>
   </div>
 </footer>
 
 <!-- Barra fixa mobile / botão flutuante desktop -->
 <div class="barra-fixa" id="barra-fixa">
-  <a class="btn btn-wa" data-wa="barra" data-origem="barra-fixa" href="https://wa.me/5511917098089" target="_blank" rel="noopener">
-    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-    <span class="barra-txt">Chamar no WhatsApp</span>
+  <a class="btn btn-ouro barra-principal" data-origem="barra-agendar" href="#agendar">
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg>
+    <span class="barra-txt">Agendar avaliação</span>
   </a>
-  <a class="btn btn-ouro barra-agenda" data-origem="barra-agendar" href="#agendar">Agendar</a>
+  <a class="btn btn-wa barra-wa" data-wa="barra" data-origem="barra-fixa" href="https://wa.me/5511917098089" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
+  </a>
 </div>
 
 <script src="dados.js"></script>
