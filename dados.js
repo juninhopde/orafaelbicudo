@@ -5,64 +5,60 @@
 window.DADOS = {
   nome: "Rafael Bicudo",
   nomeConsultorio: "Quiropraxia | Rafael Bicudo",
-  // Registro profissional: o Rafael pediu para NÃO exibir. Vazio = some do topo, do início, do "Quem sou eu", do selo e do rodapé.
-  // Para ligar de novo, escreva aqui (ex.: "CREFITO-3 12345-F") e em registroCurto.
+  // Registro profissional: o Rafael pediu para NÃO exibir. Vazio = some do site.
   registro: "",
-  registroCurto: "",   // versão curta, usada no topo (ex.: "CREFITO-3 12345-F")
+  registroCurto: "",
 
-  // Texto "Quem sou eu". Versão ajustada do briefing (sem "especialista", "causa raiz", "viva sem dor", "máxima performance").
-  // ORIGINAL do cliente, caso queira restaurar depois de conferir as regras do conselho:
-  // "Prazer, sou Rafael Bicudo. Sou especialista em Quiropraxia e dedicado a devolver mobilidade, bem-estar e qualidade de vida aos meus
-  //  pacientes. Meu foco é identificar e tratar a causa raiz de dores articulares e desalinhamentos da coluna vertebral, prevenindo
-  //  limitações e promovendo a saúde integral do corpo. Com atendimento humanizado e técnicas específicas para cada fase da vida, desde
-  //  crianças e adultos até idosos, estruturo planos de cuidado individualizados para que você viva sem dor e com máxima performance."
-  quemSou: "Prazer, sou Rafael Bicudo, quiropraxista. Meu trabalho é ajudar você a recuperar mobilidade, bem-estar e qualidade de vida. Meu foco é entender o que está por trás das suas dores articulares e das alterações na coluna, para cuidar delas com calma e orientar você no dia a dia. O atendimento é humanizado, com técnicas pensadas para cada fase da vida, de crianças e adultos a idosos, e cada plano de cuidado é individual.",
-
-  // WhatsApp: formato internacional, só dígitos. Fonte: bio do Instagram.
+  // WhatsApp principal (formato internacional, só dígitos). Usado no topo, no menu, na barra e no rodapé,
+  // e nos locais que não tiverem número próprio.
   whatsapp: "5511917098089",
   whatsappExibicao: "(11) 91709-8089",
 
   instagram: "orafaelbicudo",
   perfilGoogle: "", // link do Perfil da Empresa no Google (opcional)
 
-  // Fonte: bio do Instagram e post fixado. CONFIRMAR endereços e horários.
+  // Locais de atendimento. Cada local tem o seu WhatsApp: é para ele que vai a mensagem de "Agendar".
   locais: [
     {
       nome: "Clínica Bem Estar",
+      etiqueta: "Bragança 01",
       cidade: "Bragança Paulista",
       endereco: "Rua José Domingues, 30 - Centro, Bragança Paulista - SP",
-      horarios: "",   // ex.: "Segundas a sextas, 8h às 19h"
       acesso: "Estacionamento na rua.",
+      whatsapp: "5511917098089",
       foto: "assets/fotos/bem-estar.webp"
     },
     {
-      nome: "Studio Hoc",
+      nome: "Studio HOC",
+      etiqueta: "Bragança 02",
       cidade: "Bragança Paulista",
       endereco: "Av. Marcelo Stefani, 15 - Jaguari Cond. Empresarial, Jd. do Lago, Bragança Paulista - SP",
-      horarios: "",   // ex.: "Segundas a sextas, 8h às 19h"
-      acesso: "Estacionamento na rua.",
+      exclusivo: "Atendimento exclusivo para o público masculino.",
+      acesso: "Estacionamento no local.",
+      // Confirmado: o Studio HOC usa o mesmo WhatsApp (+55 11 91709-8089).
+      // (O número "11 914044-9555", passado antes, tinha um dígito a mais e foi descartado.)
+      // Se um dia o HOC tiver número próprio, escreva aqui só os dígitos, com 55 na frente.
+      whatsapp: "5511917098089",
       foto: "assets/fotos/studio-hoc.webp"
     },
     {
       nome: "Atlas Academia",
+      etiqueta: "Nazaré Paulista",
       cidade: "Nazaré Paulista",
       endereco: "Rua José Faria Júnior, 105 - Vicente Nunes, Nazaré Paulista - SP",
-      descricao: "Sala reservada e confortável dentro da academia.",
-      horarios: "16h às 20h",   // acrescente os dias da semana, se quiser
-      acesso: "Ao lado da Escola Prof. Fabio Hacl Pinola. Estacionamento na rua.",
+      acesso: "Estacionamento na rua.",
+      whatsapp: "5511917098089",
       mapsUrl: "https://maps.app.goo.gl/JQqq3LwHA6umjgJV9",
       foto: "assets/fotos/atlas.webp"
     }
   ],
 
-  publico: "Crianças, adultos e idosos",
-
   // Fotos reais (com autorização do Rafael). Coloque os arquivos em assets/fotos/ (WebP, até 1600 px)
-  // e escreva o caminho aqui, ex.: "assets/fotos/rafael.webp". Vazio = aparece o espaço reservado.
+  // e escreva o caminho aqui. Vazio = aparece o espaço reservado.
   fotos: {
     rafael: "assets/fotos/rafael.webp",       // retrato, aparece no início do site (vertical, 4:5)
-    quem: "assets/fotos/atendimento.webp",         // foto na seção "Quem vai cuidar de você" (vertical, 4:5)
-    atendimento: ""   // foto de atendimento na seção da primeira consulta (horizontal, 3:2)
+    quem: "assets/fotos/atendimento.webp",    // foto na seção "Quem vai cuidar de você" (vertical, 4:5)
+    atendimento: ""                           // foto de atendimento na seção da primeira consulta (horizontal, 3:2)
   },
 
   // Vídeo curto (mudo, em loop) da primeira consulta. Só publicar com autorização da paciente que aparece.
@@ -71,50 +67,13 @@ window.DADOS = {
     consulta: "assets/video/atendimento.mp4"
   },
 
-  // Fluxo Pix -> comprovante -> agenda
-  pix: {
-    chave: "11917098089",                  // chave Pix: celular
-    tipoChave: "Celular",
-    favorecido: "RAFAEL BICUDO DEBONI",    // nome do favorecido da chave Pix
-    valor: "R$ 70,00",                     // valor da RESERVA (descontado no valor da sessão)
-    valorNumero: 70.00,
-    cidade: "BRAGANCA PTA",                // até 15 letras, sem acento (usado no Pix copia e cola)
-    copiaECola: true                       // gera o código "Pix copia e cola" com o valor já preenchido
-  },
-
-  // Política da reserva (aparece em destaque na seção de reserva e no FAQ)
-  reserva: {
-    // Prazo REAL: depois que o paciente envia a mensagem completa, o Rafael segura o horário por este tempo,
-    // esperando a confirmação. Só deixe ligado se ele realmente cumprir. 0 = desliga o cronômetro.
-    prazoMinutos: 30,
-    explicacao: "Esse valor é descontado do valor da sessão, no dia do atendimento.",
-    politica: "Se você faltar ou desmarcar com 4 horas de antecedência ou menos, a reserva não é devolvida."  // texto do Rafael: "faltar ou desmarcar com 4h de antecedência, não tem estorno"
-  },
-  valorSessao: "a partir de R$ 210,00. O valor final depende da avaliação inicial do histórico clínico",
-  // Aviso sobre o alto volume de atendimentos (aparece nos passos 2 e 3 e no FAQ)
-  avisoVolume: "Por causa do alto volume de atendimentos, o Rafael pode pedir uma alteração no horário que você escolheu. Ele confirma tudo pelo WhatsApp, e só depois você faz o Pix.",
-
-  // Sistema de agendamento (consultorio.me)
-  agenda: {
-    // Lista de horários do Rafael. Abre em UMA aba nova: o formulário do consultorio.me não pode ser embutido
-    // (X-Frame-Options: SAMEORIGIN). Sem "external=true" a lista e o formulário ficam na mesma aba.
-    url: "https://consultorio.me/pro/rafael-bicudo?list=true"
-  },
-
-  convenio: "O atendimento é exclusivamente particular. Eu forneço nota fiscal ou recibo completo para você pedir reembolso ao seu plano de saúde (o reembolso depende do plano).",
-  horarioResumo: "",   // aparece no início da página; ex.: "Segundas a sextas, 8h às 19h"
   duracao: "Até 60 minutos.",
 
-  // Textos do "Onde dói?". Informativos, sem diagnóstico e sem promessa de resultado.
+  // Textos do "Onde dói?" (botão e texto de cada região).
   regioes: {
-    outra: {
-      rotulo: "outra região",
-      titulo: "Outra região",
-      texto: "Sem problema. No último passo você pode contar, em poucas palavras, onde sente o incômodo."
-    },
     cabeca: {
-      rotulo: "cabeça / enxaqueca",
-      titulo: "Cabeça e enxaqueca",
+      rotulo: "cabeça",
+      titulo: "Cabeça",
       texto: "Dor de cabeça tem muitas causas. Algumas vêm de tensão no pescoço e nos ombros, e a avaliação serve para entender se esse é o seu caso. Dor de cabeça muito forte e repentina, ou com febre, fala enrolada ou fraqueza, precisa de atendimento médico."
     },
     pescoco: {
@@ -123,13 +82,13 @@ window.DADOS = {
       texto: "O pescoço sustenta a cabeça o dia todo e sofre com postura, celular e computador. Na avaliação eu observo o movimento da cervical e dos ombros e conversamos sobre o que pode estar contribuindo."
     },
     ombro: {
-      rotulo: "ombro",
-      titulo: "Ombro",
+      rotulo: "ombro / escápula",
+      titulo: "Ombro e escápula",
       texto: "A dor no ombro pode vir do próprio ombro, mas também do pescoço ou da parte de cima das costas. A avaliação ajuda a separar uma coisa da outra."
     },
     lombar: {
-      rotulo: "lombar",
-      titulo: "Lombar",
+      rotulo: "lombar / glúteo",
+      titulo: "Lombar e glúteo",
       texto: "A lombar é uma das queixas mais comuns: ficar muito tempo sentado, fazer esforço ou acordar travado. Na avaliação olho movimento, postura e histórico. Dor que desce pela perna com perda de força, ou dificuldade de controlar xixi ou fezes, precisa de médico."
     },
     quadril: {
@@ -138,21 +97,25 @@ window.DADOS = {
       texto: "A dor no quadril pode estar ligada à lombar, à bacia ou à própria articulação. Observo como você anda, senta e se movimenta para entender de onde ela parte."
     },
     joelho: {
-      rotulo: "joelho",
-      titulo: "Joelho",
-      texto: "A dor no joelho pode ter origem no próprio joelho, mas também no quadril ou no pé. Olhamos o conjunto do movimento. Joelho inchado, quente ou dolorido depois de uma pancada deve ser visto por um médico."
+      rotulo: "dor que irradia para a perna",
+      titulo: "Dor que irradia para a perna",
+      texto: "A dor que irradia para a perna pode ser uma hérnia de disco nas vértebras da lombar, compressão neural por desalinhamento do quadril e até mesmo a síndrome do piriforme, com a avaliação e ajuste."
     },
     formigamento: {
-      rotulo: "formigamento em braços ou pernas",
-      titulo: "Formigamento em braços ou pernas",
-      texto: "O formigamento pode ter origem em nervos da coluna ou em outras causas. Por isso a conversa e a avaliação vêm antes de qualquer ajuste. Se for repentino, em um lado só do corpo ou com fala enrolada, procure atendimento de urgência."
+      rotulo: "formigamento em braços ou dedos",
+      titulo: "Formigamento em braços ou dedos",
+      texto: "O formigamento pode ter origem em nervos da coluna ou em outras causas. Por isso a conversa e a avaliação vêm antes de qualquer ajuste."
+    },
+    outra: {
+      rotulo: "outra região",
+      titulo: "Outra região",
+      texto: "Sente dor na sola do pé ao levantar ou no antebraço que vai até o cotovelo, dores nos dedos da mão, na parte da frente da perna ou queimação e dor na canela, pode ser alguma disfunção como tendinites, bursites ou desajustes articulares de pequenas articulações que raio-x ou ressonância não pega."
     }
   },
 
   // Flags
   flags: {
-    mostrarProvas: false,   // true só quando houver avaliações/depoimentos reais e autorizados
-    mostrarPreco: true     // true quando o valor acima estiver preenchido
+    mostrarProvas: false   // true só quando houver avaliações/depoimentos reais e autorizados
   },
 
   provas: [
@@ -162,20 +125,13 @@ window.DADOS = {
   // Rastreamento: vazio = desligado.
   rastreamento: { ga4: "", metaPixel: "" },
 
-  // Mensagens do WhatsApp por origem (primeira pessoa, curtas).
+  // Mensagens do WhatsApp. Variáveis: {local} {queixa}
   mensagens: {
-    // Mensagem final do agendamento. Variáveis: {nome} {queixa} {horario} {local} {valor}
-    // Mensagem completa (passo 3), pedindo a confirmação. O WhatsApp só é usado a partir daqui. Variáveis: {queixa} {horario} {cidade} {nome} {valor}
-    agendamento: "Olá, Rafael! Escolhi o meu horário na agenda e gostaria de confirmar a reserva.\n\n*Queixa:* {queixa}\n*Horário escolhido:* {horario}\n*Cidade:* {cidade}{nome}\n\nAssim que você confirmar, faço o Pix da reserva de {valor} e envio o comprovante por aqui.",
-    // 3ª mensagem (passo 4), depois da confirmação e do Pix. Variáveis: {valor} {horario} {cidade}
-    comprovante: "Olá, Rafael! Fiz o Pix da reserva de {valor} do meu horário ({horario}, {cidade}). Segue o comprovante em anexo.",
-    barra: "Olá, Rafael! Vim pelo seu site e gostaria de agendar uma avaliação.",
-    hero: "Olá, Rafael! Vim pelo seu site e queria contar onde está doendo para saber se a quiropraxia pode me ajudar.",
-    regiao: "Olá, Rafael! Vim pelo seu site. Estou com dor/desconforto em: {regiao}. Gostaria de saber se a quiropraxia pode me ajudar.",
-    consulta: "Olá, Rafael! Li como funciona a primeira consulta e tenho algumas dúvidas antes de agendar.",
-    local: "Olá, Rafael! Gostaria de saber os horários disponíveis em {local}.",
-    faq: "Olá, Rafael! Li as perguntas frequentes e queria tirar uma dúvida.",
-    final: "Olá, Rafael! Quero começar a cuidar da minha coluna. Como faço para agendar?",
-    rodape: "Olá, Rafael! Vim pelo seu site."
+    // Ao escolher o local (depois de contar o que sente):
+    agendar: "Olá, Rafael! Vim pelo seu site e gostaria de agendar um horário em {local}.\n\n*Dor:* {queixa}",
+    // Botão "Agendar neste local" quando a pessoa ainda não contou o que sente:
+    agendarSemQueixa: "Olá, Rafael! Vim pelo seu site e gostaria de agendar um horário em {local}.",
+    // Ícone de WhatsApp do topo, do menu, da barra e do rodapé:
+    geral: "Olá, Rafael! Vim pelo seu site."
   }
 };
