@@ -475,3 +475,10 @@ summary:hover, details[open] summary { color: var(--vinho); }
 .cronometro.acabou { background: #F6EDF0; color: var(--grafite); border-color: var(--vinho); }
 .cronometro.acabou .cron-rot { color: var(--vinho); }
 .cronometro .btn-ghost { color: var(--grafite); border-color: var(--grafite); background: transparent; }
+
+/* Passo 1: descrição obrigatória */
+.campo-det textarea { min-height: 130px; }
+.det-ajuda { margin: 0; font-size: .92rem; color: var(--pedra); }
+.det-cont { margin: 0; font-size: .92rem; font-weight: 700; color: var(--vinho); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn:disabled:hover { transform: none; box-shadow: none; }

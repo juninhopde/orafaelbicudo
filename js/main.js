@@ -175,14 +175,17 @@
   var chips = $$(".chip"), spots = $$(".spot");
   var tit = $("#regiao-titulo"), txt = $("#regiao-texto"), wrap = $(".regiao-corpo-wrap");
   var TIT_PADRAO = tit.textContent, TXT_PADRAO = txt.innerHTML, timerReg;
-  var p1enviar = $("#p1-enviar"), p1pular = $("#p1-pular"), p1dica = $("#p1-dica"), fDet = $("#f-det");
+  var p1prox = $("#p1-prox"), p1dica = $("#p1-dica"), fDet = $("#f-det"), detCont = $("#det-cont"), MIN_DET = 20;
   function rotulos() { return E.regioes.map(function (k) { return R[k].rotulo; }); }
-  function queixaTexto() { return juntar(rotulos()) + (E.det ? ". Detalhes: " + E.det : ""); }
+  function queixaTexto() { return juntar(rotulos()) + (E.det ? ". Relato: " + E.det : ""); }
+  /* Passo 1 só avança com região marcada E descrição do que a pessoa sente (mínimo de caracteres) */
+  function detOk() { return (E.det || "").length >= MIN_DET; }
   function atualizarP1() {
-    var ok = E.regioes.length > 0;
-    p1enviar.setAttribute("aria-disabled", ok ? "false" : "true");
-    p1enviar.href = ok ? waLink("queixa", { queixa: queixaTexto() }) : "#";
-    p1pular.hidden = !ok; p1dica.hidden = ok;
+    var faltam = MIN_DET - (E.det || "").length, ok = E.regioes.length > 0 && faltam <= 0;
+    p1prox.disabled = !ok;
+    detCont.textContent = faltam > 0 ? "Faltam " + faltam + " caracteres." : "Obrigado, isso ajuda o Rafael.";
+    p1dica.textContent = !E.regioes.length ? "Marque pelo menos uma região no bonequinho." : (faltam > 0 ? "Descreva o que você sente para continuar." : "");
+    p1dica.hidden = ok;
   }
   function atualizarRegioes(animar) {
     var tem = function (el) { return E.regioes.indexOf(el.getAttribute("data-regiao")) >= 0; };
@@ -216,19 +219,14 @@
   chips.forEach(function (c) { c.addEventListener("click", function () { alternar(c.getAttribute("data-regiao")); }); });
   spots.forEach(function (s) { s.addEventListener("click", function () { alternar(s.getAttribute("data-regiao")); }); });
   fDet.addEventListener("input", function () { E.det = fDet.value.trim(); salvar(); atualizarP1(); });
-  /* Enviar a queixa: abre o WhatsApp com a mensagem pronta e já passa ao horário */
-  p1enviar.addEventListener("click", function (e) {
-    if (!E.regioes.length) { e.preventDefault(); return; }
-    setTimeout(function () { irPara(2, true); }, 500);
-  });
-  p1pular.addEventListener("click", function () { irPara(2, true); });
+  p1prox.addEventListener("click", function () { if (E.regioes.length && detOk()) irPara(2, true); });
 
   /* --- Navegação entre os passos --- */
   var paineis = $$(".wiz-painel"), itens = $$("#wiz-barra li"), status = $("#wiz-status"), topoWiz = $("#wiz-topo");
   var NOMES = ["Onde dói", "Horário e cidade", "Mensagem ao Rafael", "Pix da reserva"];
   function irPara(n, rolar) {
     if (n < 1) n = 1;
-    if (n > 1 && !E.regioes.length) n = 1;
+    if (n > 1 && (!E.regioes.length || !detOk())) n = 1;
     E.passo = n;
     paineis.forEach(function (p) { p.classList.toggle("ativo", +p.getAttribute("data-passo") === n); });
     itens.forEach(function (li) {

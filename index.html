@@ -180,7 +180,7 @@
   <span id="onde-doi" class="ancora" aria-hidden="true"></span>
   <div class="wrap">
     <h2 id="t-agendar">Agende sua avaliação</h2>
-    <p class="lead">Quatro passos: conte onde dói, escolha o horário, envie a mensagem ao Rafael e, depois da confirmação dele, faça o Pix da reserva.</p>
+    <p class="lead">Quatro passos: conte o que você sente, escolha o horário, envie a mensagem ao Rafael e, depois da confirmação dele, faça o Pix da reserva.</p>
 
     <div class="wiz-topo" id="wiz-topo">
       <ol class="wiz-barra" id="wiz-barra" aria-label="Etapas do agendamento">
@@ -195,7 +195,7 @@
     <!-- PASSO 1: ONDE DÓI + 1ª MENSAGEM (só a queixa) -->
     <div class="wiz-painel ativo" id="passo-1" data-passo="1">
       <h3 class="wiz-tit" tabindex="-1">Onde dói?</h3>
-      <p>Toque nas regiões que mais incomodam. Pode marcar mais de uma.</p>
+      <p>Toque nas regiões que mais incomodam (pode marcar mais de uma) e conte o que você sente.</p>
       <div class="onde-grid">
         <div class="corpo js-only">
         <svg viewBox="0 0 200 420" class="corpo-svg" aria-hidden="true" focusable="false">
@@ -254,18 +254,16 @@
         </div>
       </div>
       <div class="campo campo-det">
-        <label for="f-det">Quer contar mais sobre a dor? (opcional)</label>
-        <textarea id="f-det" name="detalhes" rows="3" maxlength="400"></textarea>
+        <label for="f-det">Conte o que você sente (obrigatório)</label>
+        <textarea id="f-det" name="detalhes" rows="5" maxlength="400" aria-describedby="det-cont" placeholder="Ex.: dor na lombar há 2 semanas, piora quando fico sentado no trabalho, melhora quando deito."></textarea>
+        <p class="det-ajuda">Quanto mais específico, melhor: onde dói, desde quando, o que piora e o que alivia. Mínimo de 20 caracteres.</p>
+        <p class="det-cont" id="det-cont" aria-live="polite"></p>
       </div>
       <div class="wiz-nav">
-        <a class="btn btn-wa" id="p1-enviar" data-origem="queixa-enviar" href="#" target="_blank" rel="noopener" aria-disabled="true">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-wa"/></svg>
-          Enviar minha queixa ao Rafael
-        </a>
-        <button type="button" class="link-btn" id="p1-pular" hidden>Continuar sem enviar a mensagem</button>
-        <span class="dica" id="p1-dica">Marque pelo menos uma região para continuar.</span>
+        <button type="button" class="btn btn-ouro" id="p1-prox" disabled>Continuar para a agenda</button>
+        <span class="dica" id="p1-dica">Marque pelo menos uma região no bonequinho.</span>
       </div>
-      <p class="dica">O WhatsApp abre com a mensagem pronta. Toque em enviar e volte para este site para escolher o horário.</p>
+      <p class="dica">Você só envia a mensagem ao Rafael no último passo.</p>
     </div>
 
     <!-- PASSO 2: HORÁRIO E CIDADE NA AGENDA DO RAFAEL -->
@@ -310,6 +308,11 @@
         </div>
         <p class="erro" id="f-erro" role="alert" hidden></p>
       </form>
+      <div class="aviso-reserva" role="note">
+        <strong>Depois de escolher o dia e a cidade: reserva de <span data-bind="pix.valor">R$ 70,00</span> por Pix</strong>
+        <p>A reserva garante o seu horário. <span data-bind="reserva.explicacao">Esse valor é descontado do valor da sessão, no dia do atendimento.</span></p>
+        <p><span data-bind="reserva.politica">Se você faltar ou desmarcar com 4 horas de antecedência ou menos, a reserva não é devolvida.</span></p>
+      </div>
       <div class="wiz-nav">
         <button type="button" class="btn btn-ouro" id="p2-prox">Continuar para a mensagem</button>
         <button type="button" class="btn btn-ghost" data-voltar>Voltar</button>
@@ -498,7 +501,7 @@
       <details data-preco><summary>Quanto custa?</summary><div><p>Para garantir o horário, a reserva é de <span data-bind="pix.valor">R$ 70,00</span>, paga por Pix, e é descontada do valor da sessão no dia do atendimento. O valor da sessão é <span data-bind="valorSessao">a partir de R$ 210,00</span>.</p></div></details>
       <details><summary>E se o Rafael pedir para mudar o horário?</summary><div><p><span data-bind="avisoVolume">Por causa do alto volume de atendimentos, o Rafael pode pedir uma alteração no horário que você escolheu. Ele confirma tudo pelo WhatsApp, e só depois você faz o Pix.</span></p></div></details>
       <details><summary>E se eu faltar ou precisar desmarcar?</summary><div><p><span data-bind="reserva.politica">Se você faltar ou desmarcar com 4 horas de antecedência ou menos, a reserva não é devolvida.</span></p></div></details>
-      <details><summary>Como funciona o Pix e o agendamento?</summary><div><p>Você conta onde dói e envia a mensagem ao Rafael, escolhe o horário e a cidade na agenda dele e envia a mensagem completa. Depois que o Rafael confirmar o horário, você faz o Pix da reserva e manda o comprovante pelo WhatsApp. O valor da reserva é descontado do valor da sessão.</p></div></details>
+      <details><summary>Como funciona o Pix e o agendamento?</summary><div><p>Você marca onde dói e conta o que sente, escolhe o horário e a cidade na agenda do Rafael e envia a mensagem completa pelo WhatsApp. Depois que o Rafael confirmar o horário, você faz o Pix da reserva de R$ 70,00 e manda o comprovante. Esse valor é descontado do valor da sessão e não é devolvido se você faltar ou desmarcar com 4 horas de antecedência ou menos.</p></div></details>
     </div>
     <a class="btn btn-ouro" data-origem="faq-agendar" href="#agendar">
       <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg>

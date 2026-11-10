@@ -165,9 +165,7 @@ window.DADOS = {
   // Mensagens do WhatsApp por origem (primeira pessoa, curtas).
   mensagens: {
     // Mensagem final do agendamento. Variáveis: {nome} {queixa} {horario} {local} {valor}
-    // 1ª mensagem (passo 1): só a queixa. Variável: {queixa}
-    queixa: "Olá, Rafael! Vim pelo seu site para agendar uma avaliação. Estou com dor em: {queixa}. Já vou escolher o meu horário na agenda.",
-    // 2ª mensagem (passo 3), completa, pedindo a confirmação. Variáveis: {queixa} {horario} {cidade} {nome} {valor}
+    // Mensagem completa (passo 3), pedindo a confirmação. O WhatsApp só é usado a partir daqui. Variáveis: {queixa} {horario} {cidade} {nome} {valor}
     agendamento: "Olá, Rafael! Escolhi o meu horário na agenda e gostaria de confirmar a reserva.\n\n*Queixa:* {queixa}\n*Horário escolhido:* {horario}\n*Cidade:* {cidade}{nome}\n\nAssim que você confirmar, faço o Pix da reserva de {valor} e envio o comprovante por aqui.",
     // 3ª mensagem (passo 4), depois da confirmação e do Pix. Variáveis: {valor} {horario} {cidade}
     comprovante: "Olá, Rafael! Fiz o Pix da reserva de {valor} do meu horário ({horario}, {cidade}). Segue o comprovante em anexo.",
