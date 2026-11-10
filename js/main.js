@@ -77,8 +77,8 @@
     ag.setAttribute("data-origem", "local-agendar-" + l.nome);
     ag.innerHTML = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg> Agendar neste local';
     ag.addEventListener("click", function () {
-      E.local = l.nome; salvar();
-      var fl = $("#f-local"); if (fl) fl.value = l.nome;
+      E.cidade = l.cidade; salvar();
+      var fc = $("#f-cidade"); if (fc) fc.value = l.cidade;
     });
     ac.appendChild(rota); ac.appendChild(ag);
     cont.appendChild(d);
@@ -154,31 +154,41 @@
   var anoEl = $("#ano"); if (anoEl) anoEl.textContent = new Date().getFullYear();
 
   /* =====================================================================
-     AGENDAMENTO EM 4 PASSOS: onde dói -> Pix -> horário -> WhatsApp
-     O que a pessoa digita fica só no aparelho (localStorage, 12 h), para ela
-     poder abrir o app do banco e voltar sem perder nada.
+     AGENDAMENTO EM 4 PASSOS
+     1 Onde dói -> 1ª mensagem (queixa)   2 Horário e cidade na agenda do Rafael
+     3 Pix da reserva                     4 Mensagem completa (queixa, horário, cidade)
+     O comprovante do Pix é enviado depois, quando o Rafael confirmar o horário.
+     O que a pessoa digita fica só no aparelho (localStorage, 3 dias), para ela poder
+     abrir o WhatsApp, a agenda ou o banco e voltar sem perder nada.
      ===================================================================== */
-  var CHAVE = "agendamento-v1", TTL = 12 * 3600 * 1000;
-  var E = { passo: 1, regioes: [], nome: "", data: "", hora: "", local: "", det: "", abriu: false, t: 0 };
+  var CHAVE = "agendamento-v2", TTL = 72 * 3600 * 1000;
+  var E = { passo: 1, regioes: [], det: "", nome: "", data: "", hora: "", cidade: "", abriu: false, enviouEm: 0, horarioEnviado: "", t: 0 };
   try {
     var salvo = JSON.parse(localStorage.getItem(CHAVE) || "null");
     if (salvo && Date.now() - salvo.t < TTL) E = Object.assign(E, salvo);
   } catch (e) {}
   function salvar() { E.t = Date.now(); try { localStorage.setItem(CHAVE, JSON.stringify(E)); } catch (e) {} }
 
-  /* --- Passo 1: onde dói (pode marcar várias regiões) --- */
+  /* --- Passo 1: onde dói (pode marcar várias regiões) + 1ª mensagem --- */
   var R = D.regioes || {};
   E.regioes = (E.regioes || []).filter(function (k) { return R[k]; });
   var chips = $$(".chip"), spots = $$(".spot");
   var tit = $("#regiao-titulo"), txt = $("#regiao-texto"), wrap = $(".regiao-corpo-wrap");
   var TIT_PADRAO = tit.textContent, TXT_PADRAO = txt.innerHTML, timerReg;
-  var p1prox = $("#p1-prox"), p1dica = $("#p1-dica");
+  var p1enviar = $("#p1-enviar"), p1pular = $("#p1-pular"), p1dica = $("#p1-dica"), fDet = $("#f-det");
   function rotulos() { return E.regioes.map(function (k) { return R[k].rotulo; }); }
+  function queixaTexto() { return juntar(rotulos()) + (E.det ? ". Detalhes: " + E.det : ""); }
+  function atualizarP1() {
+    var ok = E.regioes.length > 0;
+    p1enviar.setAttribute("aria-disabled", ok ? "false" : "true");
+    p1enviar.href = ok ? waLink("queixa", { queixa: queixaTexto() }) : "#";
+    p1pular.hidden = !ok; p1dica.hidden = ok;
+  }
   function atualizarRegioes(animar) {
     var tem = function (el) { return E.regioes.indexOf(el.getAttribute("data-regiao")) >= 0; };
     chips.forEach(function (c) { c.setAttribute("aria-pressed", tem(c) ? "true" : "false"); });
     spots.forEach(function (s) { s.classList.toggle("on", tem(s)); });
-    p1prox.disabled = !E.regioes.length; p1dica.hidden = E.regioes.length > 0;
+    atualizarP1();
     var trocar = function () {
       if (!E.regioes.length) { tit.textContent = TIT_PADRAO; txt.innerHTML = TXT_PADRAO; }
       else {
@@ -205,19 +215,17 @@
   }
   chips.forEach(function (c) { c.addEventListener("click", function () { alternar(c.getAttribute("data-regiao")); }); });
   spots.forEach(function (s) { s.addEventListener("click", function () { alternar(s.getAttribute("data-regiao")); }); });
+  fDet.addEventListener("input", function () { E.det = fDet.value.trim(); salvar(); atualizarP1(); });
+  /* Enviar a queixa: abre o WhatsApp com a mensagem pronta e já passa ao horário */
+  p1enviar.addEventListener("click", function (e) {
+    if (!E.regioes.length) { e.preventDefault(); return; }
+    setTimeout(function () { irPara(2, true); }, 500);
+  });
+  p1pular.addEventListener("click", function () { irPara(2, true); });
 
   /* --- Navegação entre os passos --- */
   var paineis = $$(".wiz-painel"), itens = $$("#wiz-barra li"), status = $("#wiz-status"), topoWiz = $("#wiz-topo");
-  var NOMES = ["Onde dói", "Pix da reserva", "Horário na agenda", "Enviar ao Rafael"];
-  var p3prox = $("#p3-prox"), avisoVolta = $("#aviso-volta"), abrirAg = $("#abrir-agenda");
-  /* Depois que a pessoa abriu a agenda, ao voltar para esta aba destacamos o botão de continuar */
-  function mostrarAvisoVolta() {
-    var abriu = !!E.abriu;
-    avisoVolta.hidden = !abriu; p3prox.classList.toggle("destaque", abriu);
-  }
-  abrirAg.addEventListener("click", function () { E.abriu = true; salvar(); });
-  document.addEventListener("visibilitychange", function () { if (!document.hidden && E.passo === 3) mostrarAvisoVolta(); });
-  window.addEventListener("focus", function () { if (E.passo === 3) mostrarAvisoVolta(); });
+  var NOMES = ["Onde dói", "Horário e cidade", "Mensagem ao Rafael", "Pix da reserva"];
   function irPara(n, rolar) {
     if (n < 1) n = 1;
     if (n > 1 && !E.regioes.length) n = 1;
@@ -229,8 +237,10 @@
       if (i === n) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
     });
     status.textContent = "Passo " + n + " de 4: " + NOMES[n - 1];
-    if (n === 3) mostrarAvisoVolta();
-    if (n === 4) preencherFinal();
+    if (n === 2) mostrarAvisoVolta();
+    if (n !== 3) clearInterval(timerCron);
+    if (n === 3) preencherFinal();
+    if (n === 4) montarComprovante();
     salvar();
     if (rolar) {
       topoWiz.scrollIntoView({ behavior: reduzir ? "auto" : "smooth", block: "start" });
@@ -238,75 +248,116 @@
       if (h) setTimeout(function () { h.focus({ preventScroll: true }); }, reduzir ? 0 : 400);
     }
   }
-  p1prox.addEventListener("click", function () { irPara(2, true); });
-  $("#p2-prox").addEventListener("click", function () { irPara(3, true); });
-  p3prox.addEventListener("click", function () { irPara(4, true); });
   $$("[data-voltar]").forEach(function (b) { b.addEventListener("click", function () { irPara(E.passo - 1, true); }); });
 
-  /* --- Passo 3: resumo para colar nas "Observações" da agenda --- */
-  var bres = $("#copiar-resumo");
-  bres.addEventListener("click", function () {
-    copiar(bres, "Queixa: " + juntar(rotulos()) + (E.det ? ". " + E.det : ""), "Copiar resumo da queixa");
-  });
-
-  /* --- Passo 4: confirmar e enviar a mensagem pronta ao Rafael --- */
-  var fNome = $("#f-nome"), fData = $("#f-data"), fHora = $("#f-hora"), fLocal = $("#f-local"), fDet = $("#f-det");
-  var enviar = $("#final-enviar"), erro = $("#f-erro"), resumo = $("#resumo-final"), okMsg = $("#f-ok");
-  (D.locais || []).forEach(function (l) {
-    var o = document.createElement("option"); o.value = l.nome; o.textContent = l.nome + " (" + l.cidade + ")"; fLocal.appendChild(o);
-  });
+  /* --- Passo 2: abrir a agenda (uma aba) e confirmar horário e cidade --- */
+  var avisoVolta = $("#aviso-volta"), abrirAg = $("#abrir-agenda"), formH = $("#form-horario");
+  var fData = $("#f-data"), fHora = $("#f-hora"), fCidade = $("#f-cidade"), fNome = $("#f-nome"), erro = $("#f-erro");
+  var cidadesLista = [];
+  (D.locais || []).forEach(function (l) { if (cidadesLista.indexOf(l.cidade) < 0) cidadesLista.push(l.cidade); });
+  cidadesLista.forEach(function (c) { var o = document.createElement("option"); o.value = c; o.textContent = c; fCidade.appendChild(o); });
   function hoje() { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
   fData.min = hoje();
   function dataBonita(iso) {
     var p = iso.split("-"), d = new Date(+p[0], +p[1] - 1, +p[2]);
     return d.toLocaleDateString("pt-BR", { weekday: "long" }) + ", " + p[2] + "/" + p[1];
   }
+  /* Depois que a pessoa abriu a agenda, ao voltar para esta aba destacamos o que falta preencher */
+  function mostrarAvisoVolta() {
+    var abriu = !!E.abriu;
+    avisoVolta.hidden = !abriu; formH.classList.toggle("destaque-form", abriu);
+  }
+  abrirAg.addEventListener("click", function () { E.abriu = true; salvar(); });
+  document.addEventListener("visibilitychange", function () { if (!document.hidden && E.passo === 2) mostrarAvisoVolta(); });
+  window.addEventListener("focus", function () { if (E.passo === 2) mostrarAvisoVolta(); });
+  var bres = $("#copiar-resumo");
+  bres.addEventListener("click", function () { copiar(bres, "Queixa: " + queixaTexto(), "Copiar resumo da queixa"); });
+  function lerHorario() { E.nome = fNome.value.trim(); E.data = fData.value; E.hora = fHora.value; E.cidade = fCidade.value; }
+  [fData, fHora, fCidade, fNome].forEach(function (c) { c.addEventListener("input", function () { lerHorario(); salvar(); }); c.addEventListener("change", function () { lerHorario(); salvar(); }); });
+  $("#p2-prox").addEventListener("click", function () {
+    lerHorario();
+    var msg = null, alvo = null;
+    if (!E.data) { msg = "Escolha o dia que você reservou na agenda."; alvo = fData; }
+    else if (E.data < hoje()) { msg = "Esse dia já passou. Confira a data."; alvo = fData; }
+    else if (!E.hora) { msg = "Escolha o horário que você reservou."; alvo = fHora; }
+    else if (!E.cidade) { msg = "Escolha a cidade de atendimento."; alvo = fCidade; }
+    if (msg) { erro.textContent = msg; erro.hidden = false; alvo.focus(); return; }
+    erro.hidden = true; irPara(3, true);
+  });
+
+  /* --- Passo 3: mensagem completa (queixa, horário e cidade), pedindo a confirmação --- */
+  $("#p3-prox").addEventListener("click", function () { irPara(4, true); });
+  var enviar = $("#final-enviar"), resumo = $("#resumo-final"), okMsg = $("#f-ok");
   function montarMensagem() {
     return waLink("agendamento", {
-      nome: E.nome || "(nome)",
-      queixa: juntar(rotulos()) + (E.det ? ". Detalhes: " + E.det : ""),
-      horario: (E.data ? dataBonita(E.data) : "(dia)") + " às " + (E.hora || "(hora)"),
-      local: E.local || "(local)",
-      valor: (D.pix && D.pix.valor) || ""
+      valor: (D.pix && D.pix.valor) || "",
+      queixa: queixaTexto(),
+      horario: dataBonita(E.data) + " às " + E.hora,
+      cidade: E.cidade,
+      nome: E.nome ? "\n*Nome:* " + E.nome : ""
     });
   }
-  function lerCampos() { E.nome = fNome.value.trim(); E.data = fData.value; E.hora = fHora.value; E.local = fLocal.value; E.det = fDet.value.trim(); }
-  function desenharResumo() {
+  function chaveHorario() { return E.data + "|" + E.hora + "|" + E.cidade; }
+  function preencherFinal() {
+    if (E.enviouEm && E.horarioEnviado !== chaveHorario()) { E.enviouEm = 0; E.horarioEnviado = ""; salvar(); }
+    okMsg.hidden = true;
+    enviar.href = montarMensagem();
+    iniciarCron();
     resumo.innerHTML = "";
-    var linhas = [["Queixa", juntar(rotulos()) || "não informada"], ["Reserva", ((D.pix && D.pix.valor) || "") + " por Pix. Anexe o comprovante no WhatsApp."]];
-    if (E.data && E.hora) linhas.splice(1, 0, ["Horário", dataBonita(E.data) + " às " + E.hora]);
-    if (E.local) linhas.splice(linhas.length - 1, 0, ["Local", E.local]);
-    linhas.forEach(function (l) {
+    [["Queixa", queixaTexto()], ["Horário", dataBonita(E.data) + " às " + E.hora], ["Cidade", E.cidade],
+     ["Reserva", "Pix de " + ((D.pix && D.pix.valor) || "") + " depois que o Rafael confirmar o horário."]].forEach(function (l) {
       var p = document.createElement("p"), b = document.createElement("strong");
       b.textContent = l[0] + ": "; p.appendChild(b); p.appendChild(document.createTextNode(l[1])); resumo.appendChild(p);
     });
   }
-  function atualizarFinal() { lerCampos(); salvar(); enviar.href = montarMensagem(); desenharResumo(); }
-  function preencherFinal() {
-    fNome.value = E.nome; fData.value = E.data; fHora.value = E.hora; fLocal.value = E.local; fDet.value = E.det;
-    okMsg.hidden = true; erro.hidden = true;
-    atualizarFinal();
-  }
-  [fNome, fData, fHora, fLocal, fDet].forEach(function (c) { c.addEventListener("input", atualizarFinal); c.addEventListener("change", atualizarFinal); });
-  enviar.addEventListener("click", function (e) {
-    lerCampos();
-    var msg = null, alvo = null;
-    if (E.nome.length < 2) { msg = "Escreva o seu nome."; alvo = fNome; }
-    else if (!E.data) { msg = "Escolha o dia da consulta."; alvo = fData; }
-    else if (E.data < hoje()) { msg = "Esse dia já passou. Confira a data."; alvo = fData; }
-    else if (!E.hora) { msg = "Escolha o horário."; alvo = fHora; }
-    else if (!E.local) { msg = "Escolha o local de atendimento."; alvo = fLocal; }
-    if (msg) { e.preventDefault(); erro.textContent = msg; erro.hidden = false; alvo.focus(); return; }
-    erro.hidden = true; enviar.href = montarMensagem(); okMsg.hidden = false; salvar();
+  enviar.addEventListener("click", function () {
+    enviar.href = montarMensagem(); okMsg.hidden = false;
+    if (PRAZO && !E.enviouEm) { E.enviouEm = Date.now(); E.horarioEnviado = chaveHorario(); salvar(); }
+    iniciarCron();
   });
+
+  /* Cronômetro do prazo REAL: o Rafael segura o horário por N minutos depois do envio (dados.js, reserva.prazoMinutos) */
+  var PRAZO = (((D.reserva && D.reserva.prazoMinutos) || 0) * 60000);
+  var cron = $("#cronometro"), cronTempo = $("#cron-tempo"), cronFim = $("#cron-fim"), cronOutro = $("#cron-outro"), timerCron;
+  $("#cron-obs").textContent = "O Rafael segura o horário escolhido por " + ((D.reserva && D.reserva.prazoMinutos) || 0) +
+    " minutos, contados a partir do primeiro envio da mensagem, esperando a confirmação dele. Depois disso, o horário pode ser liberado para outra pessoa.";
+  function desenharCron() {
+    if (!PRAZO || !E.enviouEm) { cron.hidden = true; return; }
+    cron.hidden = false;
+    var resta = E.enviouEm + PRAZO - Date.now();
+    if (resta <= 0) {
+      cronTempo.textContent = "00:00"; cron.classList.add("acabou"); cronFim.hidden = false; cronOutro.hidden = false;
+      clearInterval(timerCron); return;
+    }
+    cron.classList.remove("acabou"); cronFim.hidden = true; cronOutro.hidden = true;
+    var s = Math.ceil(resta / 1000);
+    cronTempo.textContent = ("0" + Math.floor(s / 60)).slice(-2) + ":" + ("0" + (s % 60)).slice(-2);
+  }
+  function iniciarCron() {
+    clearInterval(timerCron); desenharCron();
+    if (PRAZO && E.enviouEm && E.enviouEm + PRAZO > Date.now()) timerCron = setInterval(desenharCron, 1000);
+  }
+  cronOutro.addEventListener("click", function () { E.enviouEm = 0; E.horarioEnviado = ""; salvar(); irPara(2, true); });
+
+  /* --- Passo 4: Pix (depois da confirmação) e envio do comprovante --- */
+  var comprovanteBtn = $("#comprovante-enviar");
+  function montarComprovante() {
+    comprovanteBtn.href = waLink("comprovante", {
+      valor: (D.pix && D.pix.valor) || "",
+      horario: dataBonita(E.data) + " às " + E.hora,
+      cidade: E.cidade
+    });
+  }
   $("#reiniciar").addEventListener("click", function () {
-    E = { passo: 1, regioes: [], nome: "", data: "", hora: "", local: "", det: "", t: 0 };
+    E = { passo: 1, regioes: [], det: "", nome: "", data: "", hora: "", cidade: "", abriu: false, enviouEm: 0, horarioEnviado: "", t: 0 };
     try { localStorage.removeItem(CHAVE); } catch (e) {}
-    p3prox.classList.remove("destaque");
-    atualizarRegioes(false); preencherFinal(); irPara(1, true);
+    clearInterval(timerCron); cron.hidden = true;
+    fDet.value = ""; fData.value = ""; fHora.value = ""; fCidade.value = ""; fNome.value = "";
+    atualizarRegioes(false); irPara(1, true);
   });
 
   /* Estado inicial (restaura o que a pessoa já tinha feito) */
+  fDet.value = E.det; fData.value = E.data; fHora.value = E.hora; fCidade.value = E.cidade; fNome.value = E.nome;
   atualizarRegioes(false);
   irPara(E.passo, false);
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-# Ao publicar, acrescente a linha: Sitemap: https://SEU-ENDERECO/sitemap.xml
+Sitemap: https://orafaelbicudo.vercel.app/sitemap.xml

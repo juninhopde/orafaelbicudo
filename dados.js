@@ -84,10 +84,15 @@ window.DADOS = {
 
   // Política da reserva (aparece em destaque na seção de reserva e no FAQ)
   reserva: {
+    // Prazo REAL: depois que o paciente envia a mensagem completa, o Rafael segura o horário por este tempo,
+    // esperando a confirmação. Só deixe ligado se ele realmente cumprir. 0 = desliga o cronômetro.
+    prazoMinutos: 30,
     explicacao: "Esse valor é descontado do valor da sessão, no dia do atendimento.",
     politica: "Se você faltar ou desmarcar com 4 horas de antecedência ou menos, a reserva não é devolvida."  // texto do Rafael: "faltar ou desmarcar com 4h de antecedência, não tem estorno"
   },
   valorSessao: "a partir de R$ 210,00. O valor final depende da avaliação inicial do histórico clínico",
+  // Aviso sobre o alto volume de atendimentos (aparece nos passos 2 e 3 e no FAQ)
+  avisoVolume: "Por causa do alto volume de atendimentos, o Rafael pode pedir uma alteração no horário que você escolheu. Ele confirma tudo pelo WhatsApp, e só depois você faz o Pix.",
 
   // Sistema de agendamento (consultorio.me)
   agenda: {
@@ -160,12 +165,16 @@ window.DADOS = {
   // Mensagens do WhatsApp por origem (primeira pessoa, curtas).
   mensagens: {
     // Mensagem final do agendamento. Variáveis: {nome} {queixa} {horario} {local} {valor}
-    agendamento: "Olá, Rafael! Já fiz o Pix da reserva de {valor} e já agendei o meu horário pelo site. Estou com dor em: {queixa}.\n\n*Nome:* {nome}\n*Horário agendado:* {horario}\n*Local:* {local}\n\nSegue o comprovante do Pix em anexo.",
+    // 1ª mensagem (passo 1): só a queixa. Variável: {queixa}
+    queixa: "Olá, Rafael! Vim pelo seu site para agendar uma avaliação. Estou com dor em: {queixa}. Já vou escolher o meu horário na agenda.",
+    // 2ª mensagem (passo 3), completa, pedindo a confirmação. Variáveis: {queixa} {horario} {cidade} {nome} {valor}
+    agendamento: "Olá, Rafael! Escolhi o meu horário na agenda e gostaria de confirmar a reserva.\n\n*Queixa:* {queixa}\n*Horário escolhido:* {horario}\n*Cidade:* {cidade}{nome}\n\nAssim que você confirmar, faço o Pix da reserva de {valor} e envio o comprovante por aqui.",
+    // 3ª mensagem (passo 4), depois da confirmação e do Pix. Variáveis: {valor} {horario} {cidade}
+    comprovante: "Olá, Rafael! Fiz o Pix da reserva de {valor} do meu horário ({horario}, {cidade}). Segue o comprovante em anexo.",
     barra: "Olá, Rafael! Vim pelo seu site e gostaria de agendar uma avaliação.",
     hero: "Olá, Rafael! Vim pelo seu site e queria contar onde está doendo para saber se a quiropraxia pode me ajudar.",
     regiao: "Olá, Rafael! Vim pelo seu site. Estou com dor/desconforto em: {regiao}. Gostaria de saber se a quiropraxia pode me ajudar.",
     consulta: "Olá, Rafael! Li como funciona a primeira consulta e tenho algumas dúvidas antes de agendar.",
-    comprovante: "Olá, Rafael! Fiz o Pix da reserva de {valor} e estou enviando o comprovante. Minha queixa é em: {regiao}. Vou escolher o horário pelo site.",
     local: "Olá, Rafael! Gostaria de saber os horários disponíveis em {local}.",
     faq: "Olá, Rafael! Li as perguntas frequentes e queria tirar uma dúvida.",
     final: "Olá, Rafael! Quero começar a cuidar da minha coluna. Como faço para agendar?",
