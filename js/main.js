@@ -49,8 +49,8 @@
      Escolher o local abre o WhatsApp daquele local com a dor e o pedido de horário.
      O que a pessoa digita fica só no aparelho (localStorage, 3 dias).
      ===================================================================== */
-  var CHAVE = "agendamento-v3", TTL = 72 * 3600 * 1000, MIN_DET = 20;
-  var E = { passo: 1, regioes: [], det: "", local: "", t: 0 };
+  var CHAVE = "agendamento-v3", TTL = 72 * 3600 * 1000;
+  var E = { passo: 1, regioes: [], local: "", t: 0 };
   try {
     var salvo = JSON.parse(localStorage.getItem(CHAVE) || "null");
     if (salvo && Date.now() - salvo.t < TTL) E = Object.assign(E, salvo);
@@ -62,7 +62,7 @@
   function rotulos() { return E.regioes.map(function (k) { return R[k].rotulo; }); }
   function queixaTexto() {
     if (!E.regioes.length) return "";
-    return juntar(rotulos()) + (E.det ? ". Relato: " + E.det : "");
+    return juntar(rotulos());
   }
   function localPorNome(n) { var r = null; (D.locais || []).forEach(function (l) { if (l.nome === n) r = l; }); return r; }
   function nomeCompleto(l) { return l.nome + " (" + l.etiqueta + ")"; }
@@ -77,13 +77,11 @@
   var chips = $$(".chip"), spots = $$(".spot");
   var tit = $("#regiao-titulo"), txt = $("#regiao-texto"), wrap = $(".regiao-corpo-wrap");
   var TIT_PADRAO = tit.textContent, TXT_PADRAO = txt.innerHTML, timerReg;
-  var p1prox = $("#p1-prox"), p1dica = $("#p1-dica"), fDet = $("#f-det"), detCont = $("#det-cont");
-  function detOk() { return (E.det || "").length >= MIN_DET; }
+  var p1prox = $("#p1-prox"), p1dica = $("#p1-dica");
+  /* Passo 1 só exige marcar pelo menos uma região (o paciente explica depois, por texto ou áudio, no WhatsApp) */
   function atualizarP1() {
-    var faltam = MIN_DET - (E.det || "").length, ok = E.regioes.length > 0 && faltam <= 0;
+    var ok = E.regioes.length > 0;
     p1prox.disabled = !ok;
-    detCont.textContent = faltam > 0 ? "Faltam " + faltam + " caracteres." : "Obrigado, isso ajuda o Rafael.";
-    p1dica.textContent = !E.regioes.length ? "Marque pelo menos uma região no bonequinho." : (faltam > 0 ? "Descreva o que você sente para continuar." : "");
     p1dica.hidden = ok;
   }
   function atualizarRegioes(animar) {
@@ -117,15 +115,14 @@
   }
   chips.forEach(function (c) { c.addEventListener("click", function () { alternar(c.getAttribute("data-regiao")); }); });
   spots.forEach(function (s) { s.addEventListener("click", function () { alternar(s.getAttribute("data-regiao")); }); });
-  fDet.addEventListener("input", function () { E.det = fDet.value.trim(); salvar(); atualizarP1(); });
-  p1prox.addEventListener("click", function () { if (E.regioes.length && detOk()) irPara(2, true); });
+  p1prox.addEventListener("click", function () { if (E.regioes.length) irPara(2, true); });
 
   /* --- Navegação entre os passos --- */
   var paineis = $$(".wiz-painel"), itens = $$("#wiz-barra li"), status = $("#wiz-status"), topoWiz = $("#wiz-topo");
   var NOMES = ["Onde dói", "Local de atendimento", "WhatsApp"];
   function irPara(n, rolar) {
     if (n < 1) n = 1;
-    if (n > 1 && (!E.regioes.length || !detOk())) n = 1;
+    if (n > 1 && !E.regioes.length) n = 1;
     if (n === 3 && !E.local) n = 2;
     E.passo = n;
     paineis.forEach(function (p) { p.classList.toggle("ativo", +p.getAttribute("data-passo") === n); });
@@ -180,13 +177,12 @@
     });
   }
   $("#reiniciar").addEventListener("click", function () {
-    E = { passo: 1, regioes: [], det: "", local: "", t: 0 };
+    E = { passo: 1, regioes: [], local: "", t: 0 };
     try { localStorage.removeItem(CHAVE); } catch (e) {}
-    fDet.value = ""; atualizarRegioes(false); irPara(1, true);
+    atualizarRegioes(false); irPara(1, true);
   });
 
   /* Estado inicial (restaura o que a pessoa já tinha feito) */
-  fDet.value = E.det;
   atualizarRegioes(false);
   irPara(E.passo, false);
 

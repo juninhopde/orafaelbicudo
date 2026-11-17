@@ -57,7 +57,7 @@ window.DADOS = {
   // e escreva o caminho aqui. Vazio = aparece o espaço reservado.
   fotos: {
     rafael: "assets/fotos/rafael.webp",       // retrato, aparece no início do site (vertical, 4:5)
-    quem: "assets/fotos/atendimento.webp",    // foto na seção "Quem vai cuidar de você" (vertical, 4:5)
+    quem: "assets/fotos/quem.webp",           // foto na seção "Quem vai cuidar de você" (vertical, 4:5)
     atendimento: ""                           // foto de atendimento na seção da primeira consulta (horizontal, 3:2)
   },
 
@@ -127,11 +127,12 @@ window.DADOS = {
 
   // Mensagens do WhatsApp. Variáveis: {local} {queixa}
   mensagens: {
-    // Ao escolher o local (depois de contar o que sente):
-    agendar: "Olá, Rafael! Vim pelo seu site e gostaria de agendar um horário em {local}.\n\n*Dor:* {queixa}",
-    // Botão "Agendar neste local" quando a pessoa ainda não contou o que sente:
-    agendarSemQueixa: "Olá, Rafael! Vim pelo seu site e gostaria de agendar um horário em {local}.",
+    // Ao escolher o local no agendamento (já com a região da dor marcada).
+    // Saudação neutra, porque a mensagem pode ir para o WhatsApp de uma unidade, e não só para o Rafael.
+    agendar: "Olá, tudo bem? Vim pelo site do Rafael Bicudo (Quiropraxia) e gostaria de agendar uma sessão na unidade {local}.\n\n*Queixa principal:* {queixa}.\n\nPoderia me informar os horários disponíveis? Desde já, agradeço.",
+    // Botão "Agendar neste local" (seção Onde eu atendo) quando a pessoa ainda não marcou onde dói:
+    agendarSemQueixa: "Olá, tudo bem? Vim pelo site do Rafael Bicudo (Quiropraxia) e gostaria de agendar uma sessão na unidade {local}.\n\nPoderia me informar os horários disponíveis? Desde já, agradeço.",
     // Ícone de WhatsApp do topo, do menu, da barra e do rodapé:
-    geral: "Olá, Rafael! Vim pelo seu site."
+    geral: "Olá, tudo bem? Vim pelo site do Rafael Bicudo (Quiropraxia) e gostaria de mais informações."
   }
 };

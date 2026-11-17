@@ -11,7 +11,7 @@ Quase tudo fica em **`dados.js`**: WhatsApp, Instagram, locais (com o WhatsApp d
 - Os textos das seções (hero, consulta, "Quem vai cuidar", FAQ) estão no `index.html`.
 
 ## Como o agendamento funciona
-1. A pessoa marca onde dói (pode ser mais de uma região) e é obrigada a contar o que sente (mínimo de 20 caracteres).
+1. A pessoa marca onde dói (pode ser mais de uma região). Ela explica melhor, por texto ou áudio, direto no WhatsApp.
 2. Escolhe o local de atendimento. Ao escolher, o WhatsApp daquele local abre com a dor e o pedido de horário já escritos.
 3. Se o WhatsApp não abrir, a tela final tem um botão para abrir de novo.
 
